@@ -1,0 +1,32 @@
+  Voici quelques liens relatifs au langage C++.
+
+* Tout d'abord, concernant le C++ pre-2011, un cours de base :
+https://www.ljll.math.upmc.fr/courscpp/
+
+  Les deux references suivantes correspondent au contenu (en libre acces)
+  du livre de Bruce Eckel "Thinking In C++" :
+
+http://bruce-eckel.developpez.com/livres/cpp/ticpp/v1/
+http://bruce-eckel.developpez.com/livres/cpp/ticpp/v2/
+
+ou
+http://www.drbio.cornell.edu/pl47/programming/TICPP-2nd-ed-Vol-one-html/Frames.html
+http://www.drbio.cornell.edu/pl47/programming/TICPP-2nd-ed-Vol-two/html/TicV2.html
+
+
+* Les deux sites suivants sont utiles pour un usage courant et mentionnent
+  ce qui relève d'une évolution récente du standard :
+http://www.cplusplus.com/
+http://www.cppreference.com/
+
+* Deux autres sites de reference concernant la STL (dans sa version standard
+  car il existe des extensions en particulier en Visual C++ de Microsoft) :
+http://www.sgi.com/tech/stl
+http://msdn2.microsoft.com/en-us/library/ct1as7hw.aspx
+
+
+* Enfin, on ne saurait oublier le site du maitre, ou l'on trouve une
+  presentation de son livre "The C++ Programming Language" :
+http://www.stroustrup.com/
+
+Y. Lafranche.

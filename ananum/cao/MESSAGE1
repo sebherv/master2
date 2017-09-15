@@ -1,0 +1,21 @@
+*  La fonction gginput (dans /usr/local/ananum/cao) est une version
+   modifiee de la fonction Matlab ginput, qui marque d'une croix les
+   points selectionnes (ce que ne fait pas la fonction ginput).
+   Pour y avoir acces, le plus simple est de recopier dans le repertoire
+   ou vous lancez Matlab le fichier /usr/local/ananum/cao/startup.m
+
+*  La commande mex existe en deux exemplaires dans le systeme : l'une
+   concerne TeX, l'autre Matlab. L'initialisation de la variable PATH
+   fait que c'est la commande de TeX qui est referencee par defaut.
+   Pour utiliser la commande mex de Matlab, il faut donc changer la
+   variable PATH ou donner son nom absolu. Exemple pour cette derniere
+   solution :
+
+    - en C shell :
+   set MEX = /usr/local/MATLAB/R2017a/bin/mex
+    - en Bourne shell :
+   MEX=/usr/local/MATLAB/R2017a/bin/mex
+
+   puis taper quelque chose comme :
+
+   $MEX coubezg.c bezier_eval.c -output coubez
