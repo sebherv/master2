@@ -29,6 +29,7 @@ void Point::modPointRef(double x, double y)
 
 void Point::translate(double xplus, double yplus)
 {
+  assert(ok());
   xP += xplus;
   yP += yplus;
 }

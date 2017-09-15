@@ -1,0 +1,39 @@
+border Gamma1(t=0,1){x=t;y=0;}
+border Gamma2(t=0,1){x=1;y=t;}
+border Gamma3(t=0,1){x=t;y=1;}
+border Gamma4(t=0,1){x=0;y=t;}
+
+//mesh Th = buildmesh(Gamma1(6)+Gamma2(6)+Gamma3(-6)+Gamma4(-6));
+
+//plot(Th);
+
+mesh Th2 = square(6,6);
+//plot(Th2);
+
+savemesh(Th2,"maillage.msh");
+mesh Th3=readmesh("maillage.msh");
+
+fespace Vh(Th2, P1);
+Vh u,v;
+
+func f=(5*pi^2/4)*sin(pi*x/2)*cos(pi*y); // le second membre
+func g=-(pi/2)*cos(pi*y); // la donnée de Neumann
+func u0=sin(pi*x/2)*(y==0&x>0&x<1)+cos(pi*y)*(x==1&y>=0&y<=1); // la donnée de Dirichlet
+
+problem Poisson(u,v)= int2d(Th2)(dx(u)*dx(v)+dy(u)*dy(v)) - int2d(Th2)(f*v) -int1d(Th2, Gamma4)(g*v) + on(Gamma1, u=u0) + on(Gamma2, u=u0);
+
+Poisson; // On résoud le problème
+
+real[int] valiso=[-1,-0.75,-0.5,-0.25,0,0.25,0.5,0.75,1];
+plot(u, viso=valiso, value=1, ps="tpi1_fig3.eps");
+
+Vh uex = sin(pi*x/2)*cos(pi*y); // La solution exacte
+real L2error;
+L2error = sqrt(int2d(Th2)((u-uex)^2)/int2d(Th2)(uex^2));
+
+cout << "Erreur quadratique relative commise = " << L2error << endl;
+
+Vh err = abs(u-uex);
+plot(err, fill=1);
+
+
