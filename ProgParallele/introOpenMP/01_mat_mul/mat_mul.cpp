@@ -36,6 +36,6 @@ int main()
 	cout << "Matrix r = a * b is: " << endl;
 	r->dumpToCout();
 
-	cout << endl << "Bye bye!";
+	cout << endl << "Bye bye!" << endl;
 }
 

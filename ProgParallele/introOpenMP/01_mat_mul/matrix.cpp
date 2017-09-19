@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include "matrix.h"
 
+#ifdef _OPENMP
+#include "omp.h"
+#endif
+
 using namespace std;
 
 Matrix::Matrix()
@@ -40,6 +44,8 @@ Matrix * Matrix::multiply(Matrix * a, Matrix * b)
 	Matrix * toReturn = new Matrix(iMax, jMax);
 
 	//Perform matrix multiplication
+	#ifdef _OPENMP
+	#pragma omp parallel for
 	for(int i=0; i < iMax; i++)
 	{
 		for(int j=0; j < jMax; j++)
@@ -52,6 +58,7 @@ Matrix * Matrix::multiply(Matrix * a, Matrix * b)
 			toReturn->setCij(i,j,tempValue);
 		}
 	}
+	#endif
 
 	return toReturn;
 }
