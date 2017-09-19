@@ -26,6 +26,9 @@ int main()
   {
     printf("point %d, x=%lf, y=%lf\n", i, curveData[i].x, curveData[i].y);
   } 
+  
+  // Save points
+  saveOutputPoints(curveData, numberOfOutputPoints);
 
 
   // Free memory
@@ -44,6 +47,8 @@ POINT* generateBezierFromControlBox(POINT* controlBox,
   double currentX;
 
   POINT* curvePoints = malloc(sizeof(POINT) * numberOfCurvePoints);
+  
+  
 
   for(n=0; n < numberOfCurvePoints; n++) {
     currentX = n * step;
@@ -69,8 +74,8 @@ POINT* iterateDeCasteljau(POINT* kMinusOne, int numberOfInputPoints, double curr
   int i;
   for(i = 0; i < numberOfPointAtEndOfIteration; i++)
   {
-    outputPoints[i].x = (1-currentX)*kMinusOne[i].x + currentX * kMinusOne[i+1].x;
-    outputPoints[i].y = (1-currentX)*kMinusOne[i].y + currentX * kMinusOne[i+1].y;  
+    outputPoints[i].x = deCasteljauONE(currentX, kMinusOne[i].x, kMinusOne[i+1].x);
+    outputPoints[i].y = deCasteljauONE(currentX, kMinusOne[i].y, kMinusOne[i+1].y); 
   }
 
   //free(kMinusOne);
@@ -85,9 +90,36 @@ POINT* iterateDeCasteljau(POINT* kMinusOne, int numberOfInputPoints, double curr
   }
 
 }
+/*
+ * Performs an interation of the DC1 algorithms
+ * one a single coordinate
+ */
+double deCasteljauONE(double x, double iCurrent, double iPlusOne)
+{
+	return (1 - x) * iCurrent + x * iPlusOne; 
+}
 
 
+void DC(POINT* controlPts, int n, int dim, POINT * resultPoint, POINT* buffer) {
+	/*
+	 * Algorithme de De Casteljau DC Evaluation
+	 * Arguments
+	 * - controlPts: le tableau de POINT contenant les points de contrôle
+	 * - n: le nombre de points de contrôle
+	 * - dim: la dimension de travail
+	 * - resultPoint: un pointeur vers une struct POINT pour stocker le résultat
+	 * - buffer: le buffer de travail, qui doit être de taille suffisante pour permettre à l'algorithme de fonctionner correctement
+	 */
+}
 
+int getBufferIndex(int n, int i, int k)
+{
+	/*
+	 * Retourne l'index de buffer à utiliser pour accéder à la 
+	 * donnée P_k(i)
+	 */
+	 return 
+}
 
 POINT* importDataFile(int * numberOfControlPoints)
 {
@@ -180,4 +212,18 @@ double* splitLineToFloats(char * line, int * nbrOfPts) {
 
   return toReturn;
 }
+
+// Saves the Points in file
+void saveOutputPoints(POINT* pointsToSave, int numberOfPoints)
+{
+	FILE *fp;
+
+   fp = fopen(OUTPUT_FILE, "w+");
+   int i;
+   for(i = 0; i < numberOfPoints; i++) {
+	   fprintf(fp, "%lf %lf\n", pointsToSave[i].x, pointsToSave[i].y);
+   }
+   fclose(fp);
+}
+
 
