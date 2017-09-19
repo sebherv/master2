@@ -43,53 +43,28 @@ POINT* generateBezierFromControlBox(POINT* controlBox,
 {
   // Generate for n points
   int n;
-  double step = 1 / numberOfCurvePoints;
+  double step = 1 / (double)(numberOfCurvePoints - 1);
   double currentX;
 
   POINT* curvePoints = malloc(sizeof(POINT) * numberOfCurvePoints);
   
-  
+  POINT* workBuffer = malloc(sizeof(POINT) * getBufferSize(numberOfControlPoints) );
 
   for(n=0; n < numberOfCurvePoints; n++) {
     currentX = n * step;
-    POINT * currentPoint;
-    currentPoint = iterateDeCasteljau(controlBox, numberOfControlPoints, currentX);
-    curvePoints[n].x = currentPoint->x;
-    curvePoints[n].y = currentPoint->y;
+    POINT currentPoint;
 
-    free(currentPoint); 
-
+    DC(controlBox, numberOfControlPoints, 2, currentX, &currentPoint, workBuffer);
+    
+    curvePoints[n].x = currentPoint.x;
+    curvePoints[n].y = currentPoint.y;
   }
 
   return curvePoints;
   
-
 }
 
-POINT* iterateDeCasteljau(POINT* kMinusOne, int numberOfInputPoints, double currentX)
-{
-  int numberOfPointAtEndOfIteration = numberOfInputPoints -1;
-  POINT * outputPoints = malloc(sizeof(POINT) * numberOfPointAtEndOfIteration);
 
-  int i;
-  for(i = 0; i < numberOfPointAtEndOfIteration; i++)
-  {
-    outputPoints[i].x = deCasteljauONE(currentX, kMinusOne[i].x, kMinusOne[i+1].x);
-    outputPoints[i].y = deCasteljauONE(currentX, kMinusOne[i].y, kMinusOne[i+1].y); 
-  }
-
-  //free(kMinusOne);
-
-  if(numberOfPointAtEndOfIteration == 1)
-  {
-    return outputPoints;
-  }
-  else
-  {
-    return iterateDeCasteljau(outputPoints, numberOfPointAtEndOfIteration, currentX);
-  }
-
-}
 /*
  * Performs an interation of the DC1 algorithms
  * one a single coordinate
@@ -100,7 +75,8 @@ double deCasteljauONE(double x, double iCurrent, double iPlusOne)
 }
 
 
-void DC(POINT* controlPts, int n, int dim, POINT * resultPoint, POINT* buffer) {
+void DC(POINT* controlPts, int n, int dim, double currentX, POINT * resultPoint, POINT* buffer)
+{
 	/*
 	 * Algorithme de De Casteljau DC Evaluation
 	 * Arguments
@@ -110,6 +86,33 @@ void DC(POINT* controlPts, int n, int dim, POINT * resultPoint, POINT* buffer) {
 	 * - resultPoint: un pointeur vers une struct POINT pour stocker le résultat
 	 * - buffer: le buffer de travail, qui doit être de taille suffisante pour permettre à l'algorithme de fonctionner correctement
 	 */
+
+  // Init buffer
+  for(int init = 0; init < n; init++)
+  {
+    buffer[init].x = controlPts[init].x;
+    buffer[init].y = controlPts[init].y;
+  }
+
+  // Iterate DC
+  for(int k = 1; k < n; k++)
+  {
+    for(int i = 0; i < n-k; i++)
+    {
+      buffer[getBufferIndex(n, i, k)].x = deCasteljauONE(currentX,
+                                                buffer[getBufferIndex(n,  i,  k-1)].x,
+                                                buffer[getBufferIndex(n,  i+1,k-1)].x);
+      buffer[getBufferIndex(n, i, k)].y = deCasteljauONE(currentX,
+                                                buffer[getBufferIndex(n,  i,  k-1)].y,
+                                                buffer[getBufferIndex(n,  i+1,k-1)].y);
+
+    }
+  }
+
+  // Return the calculated value.
+  resultPoint->x = buffer[getBufferIndex(n,0,n-1)].x;
+  resultPoint->y = buffer[getBufferIndex(n,0,n-1)].y;
+
 }
 
 int getBufferIndex(int n, int i, int k)
@@ -118,7 +121,14 @@ int getBufferIndex(int n, int i, int k)
 	 * Retourne l'index de buffer à utiliser pour accéder à la 
 	 * donnée P_k(i)
 	 */
-	 return 
+	 int base = n*(n+1)/2;
+   base -= (n-k)*(n-k+1)/2;
+   return base + i;
+}
+
+int getBufferSize(int n)
+{
+  return n * (n+1) / 2;
 }
 
 POINT* importDataFile(int * numberOfControlPoints)

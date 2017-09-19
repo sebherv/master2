@@ -16,7 +16,9 @@ POINT* generateBezierFromControlBox(POINT* controlBox,
                                     int numberOfControlPoints, 
                                     int numberOfCurvePoints);
 
-POINT* iterateDeCasteljau(POINT* kMinusOne, int numberOfInputPoints, double currentX);
 double deCasteljauONE(double x, double iCurrent, double iPlusOne);
+void DC(POINT* controlPts, int n, int dim, double currentX, POINT * resultPoint, POINT* buffer);
+int getBufferIndex(int n, int i, int k);
+int getBufferSize(int n);
 double* splitLineToFloats(char * line, int * nbrOfPts);
 
