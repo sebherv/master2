@@ -4,7 +4,92 @@
 #include "bezier2d.h"
 
 
-POINTS* importDataFile()
+static int numberOfOutputPoints = 16;
+
+int main()
+{ 
+
+  POINT* controlPoints;
+  int numberOfControlPoints;
+
+  // import data
+  controlPoints = importDataFile(&numberOfControlPoints);
+
+  // Generate curve data
+  POINT* curveData;
+  curveData = generateBezierFromControlBox(controlPoints, numberOfControlPoints, numberOfOutputPoints);
+
+
+  // Print out data
+  int i;
+  for(i=0; i<numberOfOutputPoints; i++)
+  {
+    printf("point %d, x=%lf, y=%lf\n", i, curveData[i].x, curveData[i].y);
+  } 
+
+
+  // Free memory
+  free(controlPoints);
+
+
+}
+
+POINT* generateBezierFromControlBox(POINT* controlBox, 
+                                    int numberOfControlPoints, 
+                                    int numberOfCurvePoints)
+{
+  // Generate for n points
+  int n;
+  double step = 1 / numberOfCurvePoints;
+  double currentX;
+
+  POINT* curvePoints = malloc(sizeof(POINT) * numberOfCurvePoints);
+
+  for(n=0; n < numberOfCurvePoints; n++) {
+    currentX = n * step;
+    POINT * currentPoint;
+    currentPoint = iterateDeCasteljau(controlBox, numberOfControlPoints, currentX);
+    curvePoints[n].x = currentPoint->x;
+    curvePoints[n].y = currentPoint->y;
+
+    free(currentPoint); 
+
+  }
+
+  return curvePoints;
+  
+
+}
+
+POINT* iterateDeCasteljau(POINT* kMinusOne, int numberOfInputPoints, double currentX)
+{
+  int numberOfPointAtEndOfIteration = numberOfInputPoints -1;
+  POINT * outputPoints = malloc(sizeof(POINT) * numberOfPointAtEndOfIteration);
+
+  int i;
+  for(i = 0; i < numberOfPointAtEndOfIteration; i++)
+  {
+    outputPoints[i].x = (1-currentX)*kMinusOne[i].x + currentX * kMinusOne[i+1].x;
+    outputPoints[i].y = (1-currentX)*kMinusOne[i].y + currentX * kMinusOne[i+1].y;  
+  }
+
+  //free(kMinusOne);
+
+  if(numberOfPointAtEndOfIteration == 1)
+  {
+    return outputPoints;
+  }
+  else
+  {
+    return iterateDeCasteljau(outputPoints, numberOfPointAtEndOfIteration, currentX);
+  }
+
+}
+
+
+
+
+POINT* importDataFile(int * numberOfControlPoints)
 {
 
   //open file and read line by line
@@ -43,9 +128,23 @@ POINTS* importDataFile()
   printf("Closing file\n");
   fclose(fptr);
 
-  printf("Building Controle Points array\n");
+  printf("Building Control Points array\n");
 
-  return NULL;
+  POINT* toReturn = malloc(sizeof(POINT) * numberOfPoints);
+
+  int index;
+  for(index = 0; index < numberOfPoints; index++)
+  {
+    toReturn[index].x = xvalues[index];
+    toReturn[index].y = yvalues[index];
+  }
+
+  *numberOfControlPoints = numberOfPoints;
+
+  free(xvalues);
+  free(yvalues);
+
+  return toReturn;
   
 }
 
@@ -54,6 +153,8 @@ double* splitLineToFloats(char * line, int * nbrOfPts) {
 
   char *token, *str, *tofree;
   int count;
+
+  tofree = str = strdup(line);
   
   // Count number of occurence of séparator
   for (count=0; line[count]; line[count]==',' ? count++ : *line++);
@@ -80,9 +181,3 @@ double* splitLineToFloats(char * line, int * nbrOfPts) {
   return toReturn;
 }
 
-int main()
-{
-  importDataFile();
-
-
-}
