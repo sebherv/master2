@@ -4,7 +4,7 @@
 #include "bezier2d.h"
 
 
-static int numberOfOutputPoints = 16;
+static int numberOfOutputPoints = 100;
 
 int main()
 { 
