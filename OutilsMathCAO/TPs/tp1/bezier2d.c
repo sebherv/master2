@@ -88,16 +88,18 @@ void DC(POINT* controlPts, int n, int dim, double currentX, POINT * resultPoint,
 	 */
 
   // Init buffer
-  for(int init = 0; init < n; init++)
+  int init;
+  for(init = 0; init < n; init++)
   {
     buffer[init].x = controlPts[init].x;
     buffer[init].y = controlPts[init].y;
   }
 
   // Iterate DC
-  for(int k = 1; k < n; k++)
+  int k, i;
+  for(k = 1; k < n; k++)
   {
-    for(int i = 0; i < n-k; i++)
+    for(i = 0; i < n-k; i++)
     {
       buffer[getBufferIndex(n, i, k)].x = deCasteljauONE(currentX,
                                                 buffer[getBufferIndex(n,  i,  k-1)].x,
