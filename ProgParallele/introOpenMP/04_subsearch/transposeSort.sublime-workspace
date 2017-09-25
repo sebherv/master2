@@ -1,0 +1,543 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"en",
+				"endif"
+			],
+			[
+				"getB",
+				"getBufferSize"
+			],
+			[
+				"cu",
+				"currentPoint"
+			],
+			[
+				"curr",
+				"currentX"
+			],
+			[
+				"cont",
+				"controlBox"
+			],
+			[
+				"current",
+				"currentX"
+			],
+			[
+				"res",
+				"resultPoint"
+			],
+			[
+				"contr",
+				"controlPts"
+			],
+			[
+				"d",
+				"dumpToCout"
+			],
+			[
+				"get",
+				"getCij"
+			],
+			[
+				"j",
+				"jMax"
+			],
+			[
+				"n",
+				"n"
+			],
+			[
+				"g",
+				"getCij"
+			],
+			[
+				"b",
+				"buffer"
+			],
+			[
+				"c",
+				"curveData"
+			],
+			[
+				"numberOfC",
+				"numberOfControlPoints"
+			],
+			[
+				"num",
+				"numberOfPointAtEndOfIteration"
+			],
+			[
+				"x",
+				"x"
+			],
+			[
+				"nu",
+				"numberOfInputPoints"
+			],
+			[
+				"nom",
+				"numberOfControlPoints"
+			],
+			[
+				"y",
+				"yvalues"
+			],
+			[
+				"si",
+				"sizeof"
+			],
+			[
+				"ma",
+				"malloc"
+			],
+			[
+				"POIN",
+				"POINT"
+			],
+			[
+				"numberOf",
+				"numberOfControlPoints"
+			],
+			[
+				"to",
+				"toReturn"
+			],
+			[
+				"di",
+				"diag"
+			],
+			[
+				"m",
+				"middle"
+			],
+			[
+				"V",
+				"VAR_DECREASING"
+			],
+			[
+				"nm",
+				"nminx"
+			],
+			[
+				"VA",
+				"VAR_STABLE"
+			],
+			[
+				"re",
+				"return"
+			],
+			[
+				"VAR_",
+				"VAR_DECREASING"
+			],
+			[
+				"r",
+				"resultf"
+			],
+			[
+				"ex",
+				"expXi"
+			],
+			[
+				"erro",
+				"errorf"
+			],
+			[
+				"do",
+				"double"
+			],
+			[
+				"iex",
+				"iexpd"
+			],
+			[
+				"ie",
+				"iexpf"
+			],
+			[
+				"rec",
+				"rectexpd"
+			],
+			[
+				"inc",
+				"include"
+			],
+			[
+				"curre",
+				"currentPolyAreaDouble"
+			],
+			[
+				"pr",
+				"printIterationResult"
+			],
+			[
+				"p",
+				"printIterationResult"
+			],
+			[
+				"cur",
+				"currentCosDouble"
+			],
+			[
+				"co",
+				"computeNextSinDouble"
+			],
+			[
+				"com",
+				"computeCurrentPolyAreaDouble"
+			],
+			[
+				"it",
+				"iterateFloat"
+			],
+			[
+				"currentSinF",
+				"currentSinFloat"
+			],
+			[
+				"currentPolyArea",
+				"currentPolyAreaDouble"
+			],
+			[
+				"pri",
+				"printLine"
+			],
+			[
+				"f",
+				"floatArray"
+			],
+			[
+				"fl",
+				"floatVar"
+			],
+			[
+				"flo",
+				"float"
+			],
+			[
+				"print",
+				"printBits"
+			],
+			[
+				"float",
+				"floatVar"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "#include \"transposeSort.h\"\n#include <iostream>\n#include <stdlib.h>\n\nusing namespace std;\n\n\nint main() {\n\t// Nombre d'entrée à trier\n\tint arraySize = 10;\n\n\tfloat * sortArray = (float*) malloc(sizeof(float) * arraySize);\n\tsrand(time(null));\n\tfor(int i = 0; i < arraySize; i++) {\n\t\tsortArray[i] = rand();\n\t}\n}\n\nfloat * initArray(int arraySize) {\n\t\n}",
+			"file": "tranposeSort.cpp",
+			"file_size": 217,
+			"file_write_time": 131508012540000000,
+			"settings":
+			{
+				"buffer_size": 346,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\n\n\nfloat * initArray(int arraySize);",
+			"file": "transposeSort.h",
+			"file_size": 0,
+			"file_write_time": 131508013580000000,
+			"settings":
+			{
+				"buffer_size": 36,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 300.0,
+		"last_filter": "pain",
+		"selected_items":
+		[
+			[
+				"pain",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Install Package Control"
+			]
+		],
+		"width": 447.0
+	},
+	"console":
+	{
+		"height": 130.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/01_mat_mul/matrix.cpp",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/01_mat_mul/mat_mul.cpp",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/01_mat_mul/matrix.h",
+		"/Users/sebh/.bashrc",
+		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp1/bezier2d.c",
+		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp1/bezier2d.h",
+		"/Users/sebh/Desktop/MasterII/OutilsMathCAO/TPs/tp1/bezier2d.c",
+		"/Users/sebh/Desktop/MasterI/fortran/helloworld/hellowork.f90",
+		"/Users/sebh/Desktop/MesTPs/MSPP/TP2/f.m",
+		"/Users/sebh/Desktop/MesTPs/MSPP/TP2/fdequation.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/pmeval.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/tp3_3_k_2.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/tp3_1.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/tp3_2.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/tp3_3.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/lagrangem.m",
+		"/Users/sebh/Desktop/Elhaji/MSPP/mcr/toolbox/compiler/keyboard.m",
+		"/Users/sebh/Documents/MATLAB/mysparcenbyn.m",
+		"/Users/sebh/Documents/MATLAB/script2.m",
+		"/Users/sebh/Documents/MATLAB/iter.m",
+		"/Users/sebh/Documents/MATLAB/f.m",
+		"/Users/sebh/Documents/MATLAB/script1.m",
+		"/Users/sebh/Desktop/Elhaji/MethNum/tp2/correction/tp2_partie1/dichotomie.m",
+		"/Users/sebh/Desktop/TP C/TP7/tp7_2_pi_archimede.c",
+		"/Users/sebh/Desktop/TP C/TP7/tp_7_1.c",
+		"/Users/sebh/Desktop/Projets/LangageC/Helloworld/dumpfloat.c",
+		"/Users/sebh/Desktop/Projets/LangageC/Helloworld/helloworld.c",
+		"/Users/sebh/Library/Application Support/Sublime Text 3/Packages/User/gcc.sublime-build"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "tranposeSort.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 346,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								344,
+								344
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "transposeSort.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 36,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								36,
+								36
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 155.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/gcc.sublime-build",
+	"project": "transposeSort.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
