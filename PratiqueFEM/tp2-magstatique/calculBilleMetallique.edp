@@ -1,0 +1,51 @@
+load "msh3" 	// bilibothèque pour les maillages 3D
+load "medit" 	// bibliothèque medit de visualisation des maillages 3D
+load "tetgen"	// mailleur TetGen
+include "mesh_sphere.idp" // inclusion de la fonction mesh_sphere
+
+real Xm=1E-3; // susceptibilité magnétique
+real B0=1; // induction magnétique [Tesla]
+real mu0=4*pi*1E-7; // permabilité magnétique du vide [H/m]
+real Cste=Xm*B0/mu0;
+
+real unit=1E-2; // les distances sont données en centimetres
+real Ri=1, Re=3; // Rayons intérieur et extérieur
+real hi=0.1, he=0.5;  // pas du maillage sur les sphères int. et ext.
+
+mesh3 ThSi=Sphere(Ri,hi,11,1); // maillage de la sphere intérieure
+mesh3 ThSe=Sphere(Re,he,12,1); // maillage de la sphère extérieure
+
+mesh3 ThS=ThSi+ThSe;  // On réunit les 2 maillages surfaciques
+
+real volteti=hi^3/6, voltete=he^3/6; // volume maximal autorisé pour les tétraèdres
+real[int] Pi=[0,0,0], Pe=[0,0,(Re+Ri)/2]; // Points du domaine intérieur et du domaine extérieur
+real[int] domaine=[Pi,1,volteti,Pe,2,voltete];  // Propriétés des 2 domaines
+mesh3 Th=tetg(ThS,switch="paAAYYQ",nbofregions=2,regionlist=domaine);
+plot(Th);
+savemesh(Th,"maillage.mesh");
+
+fespace Vh(Th,P1);
+Vh u,v;
+
+func g=Cste*z/Ri; // la donnée à l'interface
+
+solve Magnetisme(u,v)= int3d(Th)(dx(u)*dx(v)+dy(u)*dy(v)+dz(u)*dz(v))
+				+int2d(Th,12)(u*v*2/Re) - int2d(Th,11)(g*v);
+
+savesol("potentiel_approx.sol",Th, u, order=1);
+
+real normL2;
+normL2 = int3d(Th)(u^2);
+cout << " Norme L2 de la solution = " << normL2 << endl;
+
+func uex = ((1./3)*Cste*z)*(sqrt(x^2+y^2+z^2)<Ri) + // solution exacte dans le domaine int.
+		((1./3)*Cste*z*(Ri/sqrt(x^2+y^2+z^2))^3)*(sqrt(x^2+y^2+z^2)>=Ri); // domaine ext
+
+normL2 = int3d(Th)(uex^2);
+cout << " Norme L2 de la solution exacte = " << normL2 << endl;
+
+real L2error;
+L2error=sqrt(int3d(Th)((u-uex)^2) / int3d(Th)(uex^2));
+cout << " Erreur quadratique relative commise = " << L2error << endl;
+
+medit()
