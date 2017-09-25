@@ -1,0 +1,1 @@
+# Pour mesurer sur le single thread, compiler avec -fopenmp pour permettre la mesure de temps.

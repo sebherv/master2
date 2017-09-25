@@ -60,6 +60,7 @@ Matrix * Matrix::multiply(Matrix * a, Matrix * b)
 	}
 	#endif
 
+
 	return toReturn;
 }
 
