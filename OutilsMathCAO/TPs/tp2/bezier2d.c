@@ -5,6 +5,7 @@
 
 
 static int numberOfOutputPoints = 100;
+static int iterMax = 2;
 
 int main()
 { 
@@ -17,8 +18,7 @@ int main()
 
   // Generate curve data
   POINT* curveData;
-  curveData = generateBezierFromControlBox(controlPoints, numberOfControlPoints, numberOfOutputPoints);
-
+  curveData = generateBezierSubdivision(controlPoints, numberOfControlPoints, iterMax);
 
   // Print out data
   int i;
@@ -39,32 +39,33 @@ int main()
 
 POINT* generateBezierSubdivision(POINT* controlBox, 
                                     int numberOfControlPoints, 
-                                    int numberOfCurvePoints)
+                                    int maxIter)
 {
-  // Generate for n points
-  int n;
-  double step = 1 / (double)(numberOfCurvePoints - 1);
-  double currentX;
 
-  POINT* curvePoints = (POINT *)malloc(sizeof(POINT) * numberOfCurvePoints);
+  // Will hold the result points
+  POINT* curvePoints = (POINT *)malloc(sizeof(POINT) * 10);
   
-  POINT* workBuffer = (POINT *)malloc(sizeof(POINT) * getBufferSize(numberOfControlPoints) );
-
-
-  // Recursive call
-
-  for(n=0; n < numberOfCurvePoints; n++) {
-    currentX = n * step;
-    POINT currentPoint;
-
-    DC(controlBox, numberOfControlPoints, 2, currentX, &currentPoint, workBuffer);
-    
-    curvePoints[n].x = currentPoint.x;
-    curvePoints[n].y = currentPoint.y;
+  // Will hold all the subdivision algorithms
+  POINT* workBuffer = (POINT *)malloc(sizeof(POINT) * getSubdivBufferSize(numberOfControlPoints, maxIter) );
+  
+  // Copy control points in work buffer
+  int i;
+  for(i = 0; i < numberOfControlPoints; i++) {
+	  workBuffer[i].x = controlBox[i].x;
+	  workBuffer[i].y = controlBox[i].y;
   }
 
+  // Recursive call perform the subdivision algorithm
+  DC( numberOfControlPoints, 2, workBuffer);
+    
   return curvePoints;
   
+}
+
+void performSubdivision(POINT * controlBox, int n, int j, int jmax) {
+
+	DC( n, 2, controlBox);
+	
 }
 
 
@@ -78,25 +79,17 @@ double deCasteljauONE(double x, double iCurrent, double iPlusOne)
 }
 
 
-void DC(POINT* controlPts, int n, int dim, double currentX, POINT * resultPoint, POINT* buffer)
+void DC(int n, int dim, POINT* buffer)
 {
 	/*
 	 * Algorithme de De Casteljau DC Evaluation
 	 * Arguments
-	 * - controlPts: le tableau de POINT contenant les points de contrôle
 	 * - n: le nombre de points de contrôle
 	 * - dim: la dimension de travail
 	 * - resultPoint: un pointeur vers une struct POINT pour stocker le résultat
 	 * - buffer: le buffer de travail, qui doit être de taille suffisante pour permettre à l'algorithme de fonctionner correctement
+	 *   Les n premiers points sont les points de controle de départ.
 	 */
-
-  // Init buffer
-  int init;
-  for(init = 0; init < n; init++)
-  {
-    buffer[init].x = controlPts[init].x;
-    buffer[init].y = controlPts[init].y;
-  }
 
   // Iterate DC
   int k, i;
@@ -104,19 +97,15 @@ void DC(POINT* controlPts, int n, int dim, double currentX, POINT * resultPoint,
   {
     for(i = 0; i < n-k; i++)
     {
-      buffer[getBufferIndex(n, i, k)].x = deCasteljauONE(currentX,
-                                                buffer[getBufferIndex(n,  i,  k-1)].x,
-                                                buffer[getBufferIndex(n,  i+1,k-1)].x);
-      buffer[getBufferIndex(n, i, k)].y = deCasteljauONE(currentX,
-                                                buffer[getBufferIndex(n,  i,  k-1)].y,
-                                                buffer[getBufferIndex(n,  i+1,k-1)].y);
+      buffer[getEvalBufferIndex(n, i, k)].x = deCasteljauONE(0.5,
+                                                buffer[getEvalBufferIndex(n,  i,  k-1)].x,
+                                                buffer[getEvalBufferIndex(n,  i+1,k-1)].x);
+      buffer[getEvalBufferIndex(n, i, k)].y = deCasteljauONE(0.5,
+                                                buffer[getEvalBufferIndex(n,  i,  k-1)].y,
+                                                buffer[getEvalBufferIndex(n,  i+1,k-1)].y);
 
     }
   }
-
-  // Return the calculated value.
-  resultPoint->x = buffer[getBufferIndex(n,0,n-1)].x;
-  resultPoint->y = buffer[getBufferIndex(n,0,n-1)].y;
 
 }
 
@@ -159,7 +148,7 @@ int getSubdivBufferIndex(int n, int iter) {
   return iter * evalBufferSize;
 }
 
-void copyGammas(int n, int evalBufferIndex, int subdivBufferIndex) {
+void copyGammas(int n, int evalBufferIndex, int subdivBufferIndex, POINT* buffer) {
   /*
   * copies the gammas to the subdivision 
   * buffer, with following arguments
@@ -171,11 +160,11 @@ void copyGammas(int n, int evalBufferIndex, int subdivBufferIndex) {
 
 }
 
-void getGammaIndex(int n, int col) {
+int getGammaIndex(int n, int col) {
   /*
   * Returns the index of the col-th gamma index
   */
-  return getEvalBufferIndex(n, 0, k);
+  return getEvalBufferIndex(n, 0, col);
 
 }
 
@@ -183,7 +172,9 @@ void copyDeltas() {
 
 }
 
-void getDeltaIndex(int i)
+int getDeltaIndex(int n, int col) {
+	return getEvalBufferIndex(n, n-col, col );
+}
 
 
 POINT* importDataFile(int * numberOfControlPoints)

@@ -14,10 +14,10 @@ void saveOutputPoints(POINT* pointsToSave, int numberOfPoints);
 
 POINT* generateBezierSubdivision(POINT* controlBox, 
                                     int numberOfControlPoints, 
-                                    int numberOfCurvePoints);
+                                    int j);
 
 double deCasteljauONE(double x, double iCurrent, double iPlusOne);
-void DC(POINT* controlPts, int n, int dim, double currentX, POINT * resultPoint, POINT* buffer);
+void DC(int n, int dim, POINT* buffer);
 
 int getEvalBufferIndex(int n, int i, int k);
 int getEvalBufferSize(int n);
