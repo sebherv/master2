@@ -12,13 +12,17 @@ POINT* importDataFile(int * numberOfControlPoints);
 
 void saveOutputPoints(POINT* pointsToSave, int numberOfPoints);
 
-POINT* generateBezierFromControlBox(POINT* controlBox, 
+POINT* generateBezierSubdivision(POINT* controlBox, 
                                     int numberOfControlPoints, 
                                     int numberOfCurvePoints);
 
 double deCasteljauONE(double x, double iCurrent, double iPlusOne);
 void DC(POINT* controlPts, int n, int dim, double currentX, POINT * resultPoint, POINT* buffer);
-int getBufferIndex(int n, int i, int k);
-int getBufferSize(int n);
+
+int getEvalBufferIndex(int n, int i, int k);
+int getEvalBufferSize(int n);
+int getSubdivBufferSize(int n, int j);
+int getSubdivBufferIndex(int n, int j);
+
 double* splitLineToFloats(char * line, int * nbrOfPts);
 

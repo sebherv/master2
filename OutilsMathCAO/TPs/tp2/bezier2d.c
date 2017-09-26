@@ -37,7 +37,7 @@ int main()
 
 }
 
-POINT* generateBezierFromControlBox(POINT* controlBox, 
+POINT* generateBezierSubdivision(POINT* controlBox, 
                                     int numberOfControlPoints, 
                                     int numberOfCurvePoints)
 {
@@ -49,6 +49,9 @@ POINT* generateBezierFromControlBox(POINT* controlBox,
   POINT* curvePoints = (POINT *)malloc(sizeof(POINT) * numberOfCurvePoints);
   
   POINT* workBuffer = (POINT *)malloc(sizeof(POINT) * getBufferSize(numberOfControlPoints) );
+
+
+  // Recursive call
 
   for(n=0; n < numberOfCurvePoints; n++) {
     currentX = n * step;
@@ -117,7 +120,7 @@ void DC(POINT* controlPts, int n, int dim, double currentX, POINT * resultPoint,
 
 }
 
-int getBufferIndex(int n, int i, int k)
+int getEvalBufferIndex(int n, int i, int k)
 {
 	/*
 	 * Retourne l'index de buffer à utiliser pour accéder à la 
@@ -128,10 +131,60 @@ int getBufferIndex(int n, int i, int k)
    return base + i;
 }
 
-int getBufferSize(int n)
+int getEvalBufferSize(int n)
 {
   return n * (n+1) / 2;
 }
+
+int getSubdivBufferSize(int n, int j) {
+  /*
+  * Returns the buffer size required to implement
+  * the subdivision algorithm, with the following 
+  * arguments:
+  *  - n: the number of control points
+  *  - j: the number of iterations to perform.
+  */
+  int evalBufferSize = getEvalBufferSize(n);
+  return 2^j * evalBufferSize; 
+}
+
+int getSubdivBufferIndex(int n, int iter) {
+  /*
+  * Returns the index of the evaluation algo first element 
+  * in the subdivision work array
+  * - n: number of control points
+  * - iter: number of the iteration
+  */
+  int evalBufferSize = getEvalBufferSize(n);
+  return iter * evalBufferSize;
+}
+
+void copyGammas(int n, int evalBufferIndex, int subdivBufferIndex) {
+  /*
+  * copies the gammas to the subdivision 
+  * buffer, with following arguments
+  * - n: number of control points
+  * - evalBufferIndex: start index of the eval work buffer to extract the gammas from
+  * - subdivBufferIndex: start index of the subdiv buffer the gammas are to be copied to
+  */
+  int evalBufferSize = getEvalBufferSize(n);
+
+}
+
+void getGammaIndex(int n, int col) {
+  /*
+  * Returns the index of the col-th gamma index
+  */
+  return getEvalBufferIndex(n, 0, k);
+
+}
+
+void copyDeltas() {
+
+}
+
+void getDeltaIndex(int i)
+
 
 POINT* importDataFile(int * numberOfControlPoints)
 {

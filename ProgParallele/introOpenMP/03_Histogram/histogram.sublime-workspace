@@ -457,7 +457,7 @@
 						"selection":
 						[
 							[
-								94,
+								93,
 								94
 							]
 						],
@@ -537,6 +537,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"",
+				"~/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/04_subsearch/transposeSort.sublime-project"
+			]
 		],
 		"width": 380.0
 	},
