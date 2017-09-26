@@ -58,7 +58,7 @@ void sortArray(float * arrayToBeSorted, int arraySize) {
 		
 	for(int phase = 0; phase < arraySize ; phase++) {
 		// Normalement par design, 
-		#pragma omp parallel for schedule(static,50) 
+		#pragma omp parallel for schedule(dynamic) 
 		for(int i = 0; i < arraySize/2; i++) {
 			int index = i*2 + initialIndex;
 			if((arrayToBeSorted[index] > arrayToBeSorted[index+1])&&( index+1 < arraySize)) {
@@ -74,6 +74,7 @@ void sortArray(float * arrayToBeSorted, int arraySize) {
 			initialIndex = 0; // Uneven phase
 		}
 	}
+
 }
 
 
