@@ -235,7 +235,7 @@
 			"file": "histogram.cpp",
 			"settings":
 			{
-				"buffer_size": 1083,
+				"buffer_size": 1472,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -244,7 +244,7 @@
 			"file": "histogramSingleThread.cpp",
 			"settings":
 			{
-				"buffer_size": 1054,
+				"buffer_size": 1102,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -351,7 +351,7 @@
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -383,7 +383,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -392,15 +392,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1083,
+						"buffer_size": 1472,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								612,
-								612
+								1468,
+								1468
 							]
 						],
 						"settings":
@@ -409,10 +409,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 101.0,
+						"translation.y": 437.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -421,15 +421,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1054,
+						"buffer_size": 1102,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								583,
-								583
+								0,
+								0
 							]
 						],
 						"settings":
@@ -441,7 +441,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -470,7 +470,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -478,7 +478,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 24.0
 	},
 	"input":
 	{
@@ -519,7 +519,7 @@
 	"project": "histogram.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":

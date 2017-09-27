@@ -38,33 +38,44 @@ int main()
 }
 
 POINT* generateBezierSubdivision(POINT* controlBox, 
-                                    int numberOfControlPoints, 
+                                    int n, 
                                     int maxIter)
 {
 
   // Will hold the result points
-  POINT* curvePoints = (POINT *)malloc(sizeof(POINT) * 10);
+  POINT* curvePoints = (POINT *)malloc(sizeof(POINT) * getEvalBufferSize());
   
   // Will hold all the subdivision algorithms
-  POINT* workBuffer = (POINT *)malloc(sizeof(POINT) * getSubdivBufferSize(numberOfControlPoints, maxIter) );
+  POINT* workBuffer = (POINT *)malloc(sizeof(POINT) * getSubdivBufferSize(n, maxIter) );
   
   // Copy control points in work buffer
   int i;
-  for(i = 0; i < numberOfControlPoints; i++) {
+  for(i = 0; i < n; i++) {
 	  workBuffer[i].x = controlBox[i].x;
 	  workBuffer[i].y = controlBox[i].y;
   }
 
-  // Recursive call perform the subdivision algorithm
-  DC( numberOfControlPoints, 2, workBuffer);
-    
-  return curvePoints;
+  performSubdivision()
+
+  return NULL;
   
 }
 
-void performSubdivision(POINT * controlBox, int n, int j, int jmax) {
+void performSubdivision(POINT * workBuffer, int n, int position, int j, int jmax) {
 
-	DC( n, 2, controlBox);
+	// Recursive call perform the subdivision algorithm
+  DC( n, 2, workBuffer);
+  
+  int rightPosition = position * 2;
+  int leftPosition = rightPosition - 1;
+
+  copyDeltas(workBuffer, position, rightPosition);
+  performSubdivision(workBuffer, n, rightPosition, int j+1, int jmax);
+
+  copyGammas(workBuffer, position, leftPosition);
+  performSubdivision(workBuffer, n, leftPosition, int j+1, int jmax);
+
+  return;
 	
 }
 

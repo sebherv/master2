@@ -13,8 +13,12 @@ POINT* importDataFile(int * numberOfControlPoints);
 void saveOutputPoints(POINT* pointsToSave, int numberOfPoints);
 
 POINT* generateBezierSubdivision(POINT* controlBox, 
-                                    int numberOfControlPoints, 
+                                    int n,
+                                    int position, 
                                     int j);
+
+void performSubdivision(POINT * workBuffer,
+	int n, int position, int j, int jmax);
 
 double deCasteljauONE(double x, double iCurrent, double iPlusOne);
 void DC(int n, int dim, POINT* buffer);
