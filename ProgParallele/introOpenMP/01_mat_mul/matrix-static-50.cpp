@@ -52,7 +52,7 @@ Matrix * Matrix::multiply(Matrix * a, Matrix * b)
 			//Perform matrix multiplication
 			#ifdef _OPENMP
 			double t0 = omp_get_wtime();
-			#pragma omp parallel for schedule(dynamic,50)
+			#pragma omp parallel for schedule(static,50)
 			for(int i=0; i < iMax; i++)
 			{
 				for(int j=0; j < jMax; j++)
