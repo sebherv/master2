@@ -46,7 +46,7 @@ int main() {
 		{
 			cout << "This is thread " << omp_get_thread_num() << " saving histo" << endl;
 			for(int i = 0; i < slotsNbr; i++) {
-				histogram[i] = privateHisto[i];
+				histogram[i] += privateHisto[i];
 			}
 		}
 	}
@@ -66,6 +66,5 @@ int main() {
 	cout << "Elapsed wall clock time: " << t1-t0 << endl;
 	
 	delete [] floatArray;
- 
 
 }
