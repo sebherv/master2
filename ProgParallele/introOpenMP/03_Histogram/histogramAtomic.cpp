@@ -30,9 +30,11 @@ int main() {
 
 	#ifdef _OPENMP
 	double t0 = omp_get_wtime();
+    #pragma omp parallel for schedule(dynamic)
 	// Scan the array for values
 	for(int i = 0; i < totalSize; i++) {
 		int index = floor(floatArray[i]);
+		#pragma omp atomic
 		histogram[index]++;
 	}
 	double t1 = omp_get_wtime();
@@ -44,12 +46,12 @@ int main() {
 		cout << histogram[i] << " between " << i << " and " << i+1 << endl;
 		total += histogram[i];
 	}
-	
-	delete[] floatArray;
 
 	cout << "total counted is : " << total << endl;
 	cout << "theoric total is : " << totalSize << endl;
 	cout << "Elapsed wall clock time: " << t1-t0 << endl;
+	
+	delete [] floatArray;
  
 
 }
