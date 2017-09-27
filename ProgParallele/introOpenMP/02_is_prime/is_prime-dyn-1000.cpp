@@ -21,7 +21,7 @@ int main()
 			double t0 = omp_get_wtime(); 
 			int foundPrimes = 0;
 		
-			#pragma omp parallel for schedule(static,100) reduction(+:foundPrimes)
+			#pragma omp parallel for schedule(dynamic,1000) reduction(+:foundPrimes)
 			for(int current = 2; current < monInt; current++) {
 				int i = 2;
 				bool isPrime = true;
