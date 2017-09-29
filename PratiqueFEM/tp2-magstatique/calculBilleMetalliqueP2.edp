@@ -24,7 +24,7 @@ mesh3 Th=tetg(ThS,switch="paAAYYQ",nbofregions=2,regionlist=domaine);
 plot(Th);
 savemesh(Th,"maillage.mesh");
 
-fespace Vh(Th,P1);
+fespace Vh(Th,P2);
 Vh u,v;
 
 func g=Cste*z/Ri; // la donnée à l'interface

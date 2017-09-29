@@ -1,0 +1,39 @@
+load "msh3" 	// Bibliothèque pour les maillages 3D
+load "medit"    // bibliothèque medit de visualisation des maillages 3D
+load "tetgen"   // Mailleur TetGen
+
+real R1=0.5;  	// Rayon du cylindre supérieur
+real R2=0.25;		// Rayon du cylindre inférieur
+real H1=0.5;      // Hauteur du cylindre supérieur
+real H2=0.25; 		// Hauteur du cylindre central
+real H3=0.5;		// Hauteur du cylindre inférieur
+
+int n=15; 	// nombre de somments par côtés
+
+// Maillage du domaine de paramétrisation
+mesh Th1=square(n,n);
+
+plot(Th1);
+
+// On génére le maillage de la surface du cylindre
+mesh3 ThSup=movemesh23(Th1, transfo=[R1*cos(2*pi*x), R1*sin(2*pi*x), H1*y]);
+
+mesh3 ThMid=movemesh23(Th1, transfo=[(R1-R2*y)*cos(2*pi*x), (R1-R2*y)*sin(2*pi*x), H2*y+H1 ]);
+
+mesh3 ThInf=movemesh23(Th1, transfo=[R2*cos(2*pi*x), R2*sin(2*pi*x), H3*y+H1+H2]);
+
+//mesh3 ThTop=movemesh23(Th1, transfo=[R1*x*cos(2*pi*y), R1*x*sin(2*pi*y), 0]);
+//mesh3 ThBot=movemesh23(Th1, transfo=[R2*x*cos(2*pi*y), R2*x*sin(2*pi*y), H1+H2+H3]);
+
+border circle(t=0,2*pi){x=cos(t); y=sin(t);};
+mesh Th2=buildmesh(circle(n));
+
+mesh3 ThTop=movemesh23(Th2, transfo=[R1*x, R1*y, 0]);
+mesh3 ThBot=movemesh23(Th2, transfo=[R2*x, R2*y, H1+H2+H3]);
+
+mesh3 ThCoiffe = ThSup + ThMid + ThInf + ThTop + ThBot;
+
+medit("Maillage cylindre", ThCoiffe);
+
+savemesh( ThCoiffe,"coiffe.mesh");
+

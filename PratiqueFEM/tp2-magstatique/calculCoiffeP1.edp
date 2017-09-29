@@ -1,0 +1,76 @@
+load "msh3" 	// bilibothèque pour les maillages 3D
+load "medit" 	// bibliothèque medit de visualisation des maillages 3D
+load "tetgen"	// mailleur TetGen
+include "mesh_sphere.idp" // inclusion de la fonction mesh_sphere
+
+real Xm=1E-3; // susceptibilité magnétique
+real B0=1; // induction magnétique [Tesla]
+real mu0=4*pi*1E-7; // permabilité magnétique du vide [H/m]
+real Cste=Xm*B0/mu0;
+
+real unit=1E-2; // les distances sont données en centimetres
+real Ri=1, Re=3; // Rayons intérieur et extérieur
+real hi=0.1, he=0.5;  // pas du maillage sur les sphères int. et ext.
+
+real R1=0.5;  	// Rayon du cylindre supérieur
+real R2=0.25;		// Rayon du cylindre inférieur
+real H1=0.5;      // Hauteur du cylindre supérieur
+real H2=0.25; 		// Hauteur du cylindre central
+real H3=0.5;		// Hauteur du cylindre inférieur
+real Hoffset = -0.5;
+
+int n=15; 	// nombre de somments par côtés
+
+// Maillage du domaine de paramétrisation
+mesh Th1=square(n,n);
+
+plot(Th1);
+
+// On génére le maillage de la surface du cylindre
+mesh3 ThSup=movemesh23(Th1, transfo=[R1*cos(2*pi*x), R1*sin(2*pi*x), H1*y+Hoffset]);
+mesh3 ThMid=movemesh23(Th1, transfo=[(R1-R2*y)*cos(2*pi*x), (R1-R2*y)*sin(2*pi*x), H2*y+H1+Hoffset ]);
+mesh3 ThInf=movemesh23(Th1, transfo=[R2*cos(2*pi*x), R2*sin(2*pi*x), H3*y+H1+H2+Hoffset]);
+border circle(t=0,2*pi){x=cos(t); y=sin(t);};
+mesh Th2=buildmesh(circle(n));
+mesh3 ThTop=movemesh23(Th2, transfo=[R1*x, R1*y, Hoffset]);
+mesh3 ThBot=movemesh23(Th2, transfo=[R2*x, R2*y, H1+H2+H3+Hoffset]);
+mesh3 ThCoiffe = ThSup + ThMid + ThInf + ThTop + ThBot;
+
+
+mesh3 ThSe=Sphere(Re,he,12,1); // maillage de la sphère extérieure
+
+mesh3 ThS=ThCoiffe+ThSe;  // On réunit les 2 maillages surfaciques
+
+real volteti=hi^3/6, voltete=he^3/6; // volume maximal autorisé pour les tétraèdres
+real[int] Pi=[0,0,0], Pe=[0,0,(Re+Ri)/2]; // Points du domaine intérieur et du domaine extérieur
+real[int] domaine=[Pi,1,volteti,Pe,2,voltete];  // Propriétés des 2 domaines
+mesh3 Th=tetg(ThS,switch="paAAYYQ",nbofregions=2,regionlist=domaine);
+
+medit("Maillage de la coiffe", Th);
+//plot(Th);
+//savemesh(Th,"maillage.mesh");
+
+//fespace Vh(Th,P1);
+//Vh u,v;
+
+//func g=Cste*z/Ri; // la donnée à l'interface
+
+//solve Magnetisme(u,v)= int3d(Th)(dx(u)*dx(v)+dy(u)*dy(v)+dz(u)*dz(v))
+//				+int2d(Th,12)(u*v*2/Re) - int2d(Th,11)(g*v);
+
+//savesol("potentiel_approx.sol",Th, u, order=1);
+
+//real normL2;
+//normL2 = int3d(Th)(u^2);
+//cout << " Norme L2 de la solution = " << normL2 << endl;
+
+//func uex = ((1./3)*Cste*z)*(sqrt(x^2+y^2+z^2)<Ri) + // solution exacte dans le domaine int.
+//		((1./3)*Cste*z*(Ri/sqrt(x^2+y^2+z^2))^3)*(sqrt(x^2+y^2+z^2)>=Ri); // domaine ext
+
+//normL2 = int3d(Th)(uex^2);
+//cout << " Norme L2 de la solution exacte = " << normL2 << endl;
+
+//real L2error;
+//L2error=sqrt(int3d(Th)((u-uex)^2) / int3d(Th)(uex^2));
+//cout << " Erreur quadratique relative commise = " << L2error << endl;
+

@@ -1,0 +1,25 @@
+Solution P1:
+
+  -- FESpace: Nb of Nodes 7903 Nb of DoF 7903
+  -- Solve : 
+          min -250.646  max 248.079
+ Norme L2 de la solution = 237927
+ Norme L2 de la solution exacte = 254958
+ Erreur quadratique relative commise = 0.0476242
+times: compile 0.059804s, execution 4.55223s,  mpirank:0
+ CodeAlloc : nb ptr  2909,  size :346104 mpirank: 0
+Ok: Normal End
+
+
+
+Solution P2:
+
+  -- FESpace: Nb of Nodes 65213 Nb of DoF 65213
+  -- Solve : 
+          min -263.24  max 263.49
+ Norme L2 de la solution = 252505
+ Norme L2 de la solution exacte = 254958
+ Erreur quadratique relative commise = 0.00625911
+times: compile 0.067152s, execution 64.3754s,  mpirank:0
+ CodeAlloc : nb ptr  2909,  size :346104 mpirank: 0
+Ok: Normal End
