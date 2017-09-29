@@ -1,0 +1,40 @@
+18015619@me041005:~/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire> g++ -fopenmp md.cpp -o mdsingle
+18015619@me041005:~/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire> ./mdsingle 
+Time t =  0.00000   pe =  1823511.31853   ke =        0.00000   total =  1823511.31853
+Time t =  0.01000   pe =  1823421.25986   ke =       90.05546   total =  1823511.31531
+Time t =  0.02000   pe =  1823145.88474   ke =      365.39093   total =  1823511.27567
+Time t =  0.03000   pe =  1822674.71990   ke =      836.44495   total =  1823511.16485
+Time t =  0.04000   pe =  1821989.41249   ke =     1521.52846   total =  1823510.94096
+Time t =  0.05000   pe =  1821073.06136   ke =     2437.49925   total =  1823510.56061
+Time taken was 598.07887 seconds
+
+
+18015619@me041005:~/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire> g++ -fopenmp md.cpp -o mdsingle
+18015619@me041005:~/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire> ./mdsingle 
+Time t =  0.00000   pe =  1823511.31853   ke =        0.00000   total =  1823511.31853
+Time t =  0.01000   pe =  1823421.25986   ke =       90.05546   total =  1823511.31531
+Time t =  0.02000   pe =  1823145.88474   ke =      365.39093   total =  1823511.27567
+Time t =  0.03000   pe =  1822674.71990   ke =      836.44495   total =  1823511.16485
+Time t =  0.04000   pe =  1821989.41249   ke =     1521.52846   total =  1823510.94096
+Time t =  0.05000   pe =  1821073.06136   ke =     2437.49925   total =  1823510.56061
+Time taken was 598.07887 seconds
+
+18015619@me041005:~/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire> g++ -fopenmp md.cpp -O4 -o mdsingle
+18015619@me041005:~/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire> ./mdsingle 
+Time t =  0.00000   pe =  1823511.31853   ke =        0.00000   total =  1823511.31853
+Time t =  0.01000   pe =  1823421.25986   ke =       90.05546   total =  1823511.31531
+Time t =  0.02000   pe =  1823145.88474   ke =      365.39093   total =  1823511.27567
+Time t =  0.03000   pe =  1822674.71990   ke =      836.44495   total =  1823511.16485
+Time t =  0.04000   pe =  1821989.41249   ke =     1521.52846   total =  1823510.94096
+Time t =  0.05000   pe =  1821073.06136   ke =     2437.49925   total =  1823510.56061
+Time taken was 41.46307 seconds
+
+18015619@me041005:~/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire> g++ -fopenmp mdparallelized.cpp -O4 -o mdparallel
+18015619@me041005:~/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire> ./mdparallel Time t =  0.00000   pe =  1823511.31853   ke =        0.00000   total =  1823511.31853
+Time t =  0.01000   pe =  1823421.25986   ke =       90.05546   total =  1823511.31531
+Time t =  0.02000   pe =  1823145.88474   ke =      365.39093   total =  1823511.27567
+Time t =  0.03000   pe =  1822674.71990   ke =      836.44495   total =  1823511.16485
+Time t =  0.04000   pe =  1821989.41249   ke =     1521.52846   total =  1823510.94096
+Time t =  0.05000   pe =  1821073.06136   ke =     2437.49925   total =  1823510.56061
+Time taken was 11.39883 seconds
+18015619@me041005:~/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire> 
