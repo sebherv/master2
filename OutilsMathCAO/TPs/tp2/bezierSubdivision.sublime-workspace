@@ -4,8 +4,44 @@
 		"selected_items":
 		[
 			[
+				"le",
+				"level"
+			],
+			[
 				"j",
-				"jmax"
+				"j"
+			],
+			[
+				"perfor",
+				"performSubdivision"
+			],
+			[
+				"generate",
+				"generateBezierSubdivision"
+			],
+			[
+				"nu",
+				"numberOfPoints"
+			],
+			[
+				"ma",
+				"maxIter"
+			],
+			[
+				"current",
+				"currentEval"
+			],
+			[
+				"ev",
+				"evalPosition"
+			],
+			[
+				"cu",
+				"currentDest"
+			],
+			[
+				"curr",
+				"currentEval"
 			],
 			[
 				"copy",
@@ -24,10 +60,6 @@
 				"getEvalBufferSize"
 			],
 			[
-				"curr",
-				"current"
-			],
-			[
 				"cur",
 				"current"
 			],
@@ -38,10 +70,6 @@
 			[
 				"re",
 				"read"
-			],
-			[
-				"nu",
-				"numberOfLines"
 			],
 			[
 				"fp",
@@ -84,16 +112,8 @@
 				"getBufferSize"
 			],
 			[
-				"cu",
-				"currentPoint"
-			],
-			[
 				"cont",
 				"controlBox"
-			],
-			[
-				"current",
-				"currentX"
 			],
 			[
 				"res",
@@ -142,10 +162,6 @@
 			[
 				"si",
 				"sizeof"
-			],
-			[
-				"ma",
-				"malloc"
 			],
 			[
 				"POIN",
@@ -271,40 +287,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "bezier2d.c",
-			"settings":
-			{
-				"buffer_size": 6913,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "contpoints.dat",
-			"settings":
-			{
-				"buffer_size": 15,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "bezier2d.h",
-			"settings":
-			{
-				"buffer_size": 850,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "bezier_result.dat",
-			"settings":
-			{
-				"buffer_size": 1800,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -366,6 +348,10 @@
 	},
 	"file_history":
 	[
+		"/homedir/UR1/18015619/Documents/master2/OutilsMathCAO/TPs/tp2/contpoints.dat",
+		"/homedir/UR1/18015619/Documents/master2/OutilsMathCAO/TPs/tp2/bezier2d.h",
+		"/homedir/UR1/18015619/Documents/master2/OutilsMathCAO/TPs/tp2/bezier_result.dat",
+		"/homedir/UR1/18015619/Documents/master2/OutilsMathCAO/TPs/tp2/bezier2d.c",
 		"/homedir/UR1/18015619/Documents/master2/ProgParallele/introOpenMP/05_dynmoleculaire/md.cpp",
 		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp1/contpoints.dat",
 		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp1/bezier2d.h",
@@ -402,7 +388,7 @@
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -416,6 +402,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"generateBezierSubdivision",
 			"numberOfControlPoints"
 		],
 		"highlight": true,
@@ -434,135 +421,19 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "bezier2d.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6913,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1680,
-								1680
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 528.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		},
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 1,
-					"file": "contpoints.dat",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 15,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "bezier2d.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 850,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								493,
-								493
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "bezier_result.dat",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1800,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								432,
-								414
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 24.0
+		"height": 26.0
 	},
 	"input":
 	{
@@ -579,21 +450,21 @@
 				1
 			],
 			[
-				1,
 				0,
-				2,
-				1
+				1,
+				1,
+				2
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.556514913658,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
+			0.714723240848,
 			1.0
 		]
 	},
@@ -610,7 +481,7 @@
 	"project": "bezierSubdivision.sublime-project",
 	"replace":
 	{
-		"height": 44.0
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -644,7 +515,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
