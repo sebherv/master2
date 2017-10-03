@@ -21,7 +21,7 @@ real volteti=hi^3/6, voltete=he^3/6; // volume maximal autorisé pour les tétra
 real[int] Pi=[0,0,0], Pe=[0,0,(Re+Ri)/2]; // Points du domaine intérieur et du domaine extérieur
 real[int] domaine=[Pi,1,volteti,Pe,2,voltete];  // Propriétés des 2 domaines
 mesh3 Th=tetg(ThS,switch="paAAYYQ",nbofregions=2,regionlist=domaine);
-plot(Th);
+//plot(Th);
 savemesh(Th,"maillage.mesh");
 
 fespace Vh(Th,P2);
@@ -48,3 +48,4 @@ real L2error;
 L2error=sqrt(int3d(Th)((u-uex)^2) / int3d(Th)(uex^2));
 cout << " Erreur quadratique relative commise = " << L2error << endl;
 
+medit("Resultat", Th, u);
