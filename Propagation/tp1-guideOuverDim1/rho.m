@@ -1,8 +1,5 @@
-function [ result ] = rho( x, H, rhop, rhom )
+function [ r ] = rho( x, H, rhop, rhom )
 %RHO 
+r=rhom*ones(size(x));
+r(abs(x)<H) = rhop;
 
-if abs(x) > H
-    result = rhom;
-else
-    result = rhop;
-end
