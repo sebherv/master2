@@ -7,14 +7,10 @@ private:
 	double * val;
 
 public:
-	Vect(int n=0);
-	Vect(const Vect& vect);
-	Vect& operator=(const Vect& vect);
+	Vect(int n);
 	void init(double initVal);
 	void affiche();
 	void modif(int i, double r);
-
-	friend double * getval(const Vect& U);
 };
 
 

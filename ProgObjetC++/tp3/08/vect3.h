@@ -9,7 +9,10 @@ private:
 public:
 	Vect(int n=0);
 	Vect(const Vect& vect);
+	~Vect();
 	Vect& operator=(const Vect& vect);
+
+
 	void init(double initVal);
 	void affiche();
 	void modif(int i, double r);
