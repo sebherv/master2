@@ -17,14 +17,23 @@ int main() {
 	v.affiche();
 
 	cout << "pointeur of v.val: " << getval(v) << endl;
+	double * myVal;
+	{
+		Vect U(3);
+		U.modif(0,1.0);
+		U.modif(1,2.0);
+		U.modif(2,3.0);
+		myVal = getval(U);
+	}
 
-	Vect U(3);
-	U.modif(0,1.0);
-	U.modif(1,2.0);
-	U.modif(2,3.0);
-	double * myVal = getval(U);
+	cout << "Les valeurs de U en sortie de bloc:" << endl;
+	for(int i = 0 ; i < 3; i++) {
+		cout << "x" << i << "= " << myVal[i] << endl;
+	}
 
-	cout << "Les valeurs de U:" << endl;
+	Vect V(50);
+	V.init(5);
+	cout << "Les valeurs de U après déclaration de V:" << endl;
 	for(int i = 0 ; i < 3; i++) {
 		cout << "x" << i << "= " << myVal[i] << endl;
 	}

@@ -1,0 +1,37 @@
+*  Afin de vous aider a mettre au point vos programmes, je vous donne un
+   exemple de programmation. Vous trouverez dans le repertoire
+   /usr/local/ananum/cao  les fichiers suivants :
+ 
+   bezier_eval.f  : evaluation version Fortran
+   bezier_eval.c  : evaluation version C
+   bezier_subdi.f : subdivision version Fortran
+
+*  Utile pour construire la matrice d'interpolation (Bezier) :
+   En langage C comme en Fortran, i/j est une division euclidienne si les
+   2 variables i et j sont de type entier. Le resultat est donc nul si i<j.
+   Pour forcer le compilateur a effectuer une division reelle, il faut
+   convertir i ou j en reel, soit :
+    . en fortran : real(i)/j      ou      dble(i)/j
+    . en C       : (float)i/j     ou      (double)i/j
+
+*  La methode de Gauss promise est dans le fichier 
+   /usr/local/ananum/cao/gauss.f
+   Il s'agit d'une version simple precision. N'oubliez pas de modifier 
+   les declarations si vous travaillez en double precision.
+
+*  Vous trouverez dans le repertoire /usr/local/ananum/cao le fichier
+   invmat.c qui appelle la subroutine Fortran du fichier gauss.f.
+   Pour assurer la compatibilite de l'adressage, il faut transposer la
+   matrice.
+
+    --> Attention (cf commentaires) : le nom de la subroutine Fortran doit
+    etre suivi d'un _ lors de l'appel dans le programme C ou C++ (en C++,
+    la declaration de la fonction doit de plus etre precedee par extern "C").
+    Ceci est du a la gestion des noms des points d'entrees dans les differents
+    langages.
+
+   Le mode d'emploi se trouve en tete du fichier invmat.c.
+
+   Pour obtenir la version double precision, il suffit de remplacer "float"
+   par "double" dans invmat.c et "real" en "double precision" (ou "real*8")
+   dans gauss.f.

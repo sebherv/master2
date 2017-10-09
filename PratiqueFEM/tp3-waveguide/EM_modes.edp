@@ -1,0 +1,37 @@
+real a=5, b=10;        	// dimension du guide rectangulaire
+					   	// en unites adimensionnalises
+int nx=50, ny=50;		// nb de noeuds sur chaque cote
+mesh Th=square(nx, ny, [a*x, b*y]); // generation du maillage de [0,a] x [0,b]
+
+
+fespace Vh(Th,P2);		// approximation EF de degre 2
+Vh u1,u2;
+
+// On calcul nev valeurs propres autour de la valeur sigma
+real sigma = 1;			// DANS la condition de NEUMANN ,sigma = 0 amène au problème de Neumann
+						// qui n'a pas de solution unique
+
+int nev = 20;			// nombre de v.p. calculees
+real[int] evtm(nev); 	// tableau pour les valeurs propres des modes TM
+Vh[int] evectm(nev);	// tableau pour les vecteurs propres des modes TM
+
+
+varf optm(u1,u2)=int2d(Th)(dx(u1)*dx(u2)+dy(u1)*dy(u2) - sigma*u1*u2);
+// Pas de condition au bord --> condition naturelle --> Neumann
+
+varf bv([u1],[u2])=int2d(Th)(u1*u2);
+
+matrix OPTM = optm(Vh, Vh, solver=Crout, factorize=1);
+matrix B=bv(Vh, Vh,solver=CG, eps=1E-20);
+
+int ktm=EigenValue(OPTM, B, sym=true, sigma=sigma, value=evtm, vector=evectm,
+				tol=1e-10, maxit=0, ncv=0);
+
+for(int i = 0; i < nev; i++)
+{
+	cout << "---" << i << " eigen value  : " << evtm[i] << "---";
+	real err = int2d(Th)(dx(evectm[i])^2 + dy(evectm[i])^2) - evtm[i] * int2d(Th)(evectm[i]^2) ;
+	cout << "---" << "err= " << err << endl;
+};
+
+plot(evectm[15]);
