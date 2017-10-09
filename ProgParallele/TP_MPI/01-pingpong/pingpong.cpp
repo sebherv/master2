@@ -4,9 +4,11 @@
 
 using namespace std;
 
+// Ranks
 const int MASTER_RANK = 0;
 const int SLAVE_RANK = 1;
 
+// Tags
 const int MTOS_TAG = 10;
 const int STOM_TAG = 11;
 const int SEND_N_TAG = 12;
@@ -15,28 +17,25 @@ const int SEND_M_TAG = 13;
 int main(int argc, char *argv[]) {
 
 	int nprocs, rank;
-
-	// Values input by user, only visible to
-	// rank 0 at start
-	int iN, iM = 0;
-
-	for(int i=0; i < argc ; i++) {
-
-		if(strcmp("pingN", argv[i]) == 0) {
-			sscanf(argv[i+1], "%d", &iN);
-		}
-		if(strcmp("pingM", argv[i]) == 0)	{
-			sscanf(argv[i+1], "%d", &iM);
-		}
-	}
-
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-	
-
-
 	if(rank == MASTER_RANK) {
+	
+		// Values input by user, only visible to
+		// rank 0 at start
+		int iN, iM = 0;
+	
+		for(int i=0; i < argc ; i++) {
+	
+			if(strcmp("pingN", argv[i]) == 0) {
+				sscanf(argv[i+1], "%d", &iN);
+			}
+			if(strcmp("pingM", argv[i]) == 0)	{
+				sscanf(argv[i+1], "%d", &iM);
+			}
+		}
+
 		if((iM == 0) || (iN == 0)){
 			cout << endl <<"Please enter the number of floats to be sent: " ;
 			cin >> iN;
