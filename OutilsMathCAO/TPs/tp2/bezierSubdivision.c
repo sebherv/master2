@@ -19,7 +19,7 @@ int main()
   // Generate curve data
   printf("About to call generateBezierSubdivision()\n");
   POINT* curveData;
-  curveData = generateBezierSubdivision(controlPoints, numberOfControlPoints, iterMax);
+  curveData = generateBezierSubdivision(controlPoints, numberOfControlPoints-1, iterMax);
 
   // Print out data
   int i;
@@ -44,7 +44,7 @@ POINT* generateBezierSubdivision(POINT* controlBox,
 {
 
   // Will hold the result points
-  POINT* curvePoints = (POINT *)malloc(sizeof(POINT) * (2*n +1));
+  POINT* curvePoints = (POINT *)malloc(sizeof(POINT) * getElementaryBufferSize(n) * 2^jmax);
   
   printf("Copying control points into workBuffer\n");
   
@@ -61,36 +61,71 @@ POINT* generateBezierSubdivision(POINT* controlBox,
   
 }
 
-void performSubdivision(POINT * workBuffer, int n, int j, int jmax) {
-  printf("performSubdivision() level %d\n", j);
-
-	
-  
-  int rightPosition = position * 2;
-  int leftPosition = rightPosition - 1;
-
-  if(j < jmax) {
-    performSubdivision(workBuffer, n, rightPosition, j+1,  jmax);
-    performSubdivision(workBuffer, n, leftPosition, j+1,  jmax);
-  }
-
-  printf("Returning from performSubdivision level %d\n",j);
-  return;
-	
+int getElementaryBufferSize(int n) {
+	return 2 * n + 1;
 }
 
-void elementarySubdivision(POINT * pointsBuffer, POINT * gBuffer, int n ) {
+void performSubdivision(POINT * workBuffer, int n, int j, int jmax, int sourceSlot, int outputSlot) {
+	printf("performSubdivision() level %d\n", j);
+
+	int bufferSize = getElementaryBufferSize(n);
+
+	// the output slot is algebraically computed from the source slot
+	inputBuffer = workBuffer + sourceSlot * bufferSize; 
+	outputBuffer = workBuffer + outputSlot * bufferSize;
+
+	// If output slot is pair, we are working with a right buffer
+	if(outputSlot % 2 == 0) {
+		inputBuffer += n+1;
+	}
+
+	elementarySubdivision(inputBuffer, outputBuffer, n); // ICI Avant faire varier ces pointeurs en fonction de la position
+
+
+	if(j < jmax) {
+		// For this to work, slots must be numbered from 1, not 0 !!
+		int rightOutputSlot = slot * 2;
+		int leftOutputSlot = rightOutputSlot - 1;
+	
+		int leftSourceSlot 		= slot;
+		int rightSourceSlot 	= slot;
+	
+		POINT * leftBuffer 		= workBuffer + bufferSize * leftOutputSlot;
+		POINT * rightBuffer 	= 	workBuffer + bufferSize * rightOutputSlot
+		
+		performSubdivision(workBuffer, n, j+1,  jmax, rightSourceSlot, rightOutputSlot);
+		performSubdivision(workBuffer, n, j+1,  jmax, leftSourceSlot, leftOutputSlot);
+	}		
+
+	printf("Returning from performSubdivision level %d\n",j);
+	return;
+	}
+
+void elementarySubdivision(POINT * pointsBuffer, POINT * gdBuffer, int n ) {
+
+	/*
+	*	Copies the control points into the gdbuffer at the correct
+	*   place and performs the elementary subdivision algorithm
+	*/
 
   int k = 0;
   int i = 0;
 
-  // Save the gammas
-  gdBuffer[k].x = pointsBuffer[0].x;
-  gdBuffer[k].y = pointsBuffer[0].y;
+  // Copy control box
+  for(i = 0; i < n+1; i++) {
+  	dbuffer[n+1+i].x = pointsBuffer[i].x;
+  	dbuffer[n+1+i].y = pointsBuffer[i].y;
+  }
 
-  for(i = O; i < (n-k); i++) {
-    pointsBuffer[i].x = deCasteljauONE(0.5, pointsBuffer[i].x, pointsBuffer[i].x);
-    pointsBuffer[i].y = deCasteljauONE(0.5, pointsBuffer[i].y, pointsBuffer[i].y);
+  for(k = 0; k < n; k++) {
+    // Save the gammas
+    gdBuffer[k].x = pointsBuffer[0].x;
+    gdBuffer[k].y = pointsBuffer[0].y;
+
+    for(i = O; i < (n-k); i++) {
+      pointsBuffer[i].x = deCasteljauONE(0.5, pointsBuffer[i].x, pointsBuffer[i].x);
+      pointsBuffer[i].y = deCasteljauONE(0.5, pointsBuffer[i].y, pointsBuffer[i].y);
+    }
   }
 }
 
