@@ -6,30 +6,52 @@ const int MASTER_RANK = 0;
 
 using namespace std;
 
-int main()
+int computeCyclicOne(int inputInt,int rank, int worldSize);
+
+int main(int argc, char *argv[])
 {
 
-	int nprocs, rank;
+	int worldSize, rank;
 	MPI_Init(&argc, &argv);
+
+	MPI_Comm_size(MPI_COMM_WORLD,&worldSize);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+	int inputInt;
 
 	if(rank == MASTER_RANK) {
 		cout << "Veuillez saisir un nombre entier:" << endl;
-		int monInt;
-		cin >> monInt;
+		cin >> inputInt;
 	}
 
+	// First broadcast the int
+	MPI_Bcast(&inputInt, 1, MPI_INT, MASTER_RANK, MPI_COMM_WORLD);
+	
+	MPI_Barrier(MPI_COMM_WORLD);
+	double t0 = MPI_Wtime();
+	int foundPrimes = computeCyclicOne(inputInt, rank, worldSize);
 
-	// Generator array of all the int to be checked for being primes
-	int* intArray = new int[monInt - 1];
-	for(int i = 0; i < monInt - 1; i++) {
-		intArray[i] = i + 2;
+	int reducedResult;
+	MPI_Reduce(&foundPrimes,&reducedResult,	1,MPI_INT,MPI_SUM,MASTER_RANK, MPI_COMM_WORLD);
+
+	MPI_Barrier(MPI_COMM_WORLD);
+	double t1 = MPI_Wtime();
+
+	if(rank == MASTER_RANK) {	
+		cout << "Found " << reducedResult << " prime numbers between 1 and " << inputInt << "; ";
+		cout << t1-t0 << " wtime() elapsed " <<endl; 
 	}
 
-	MPI_Scatter(intArray, monInt - 1, MPI_INT, intArray, 100, MPI_INT,root, MPI_COMM_WORLD);
-	//double t0 = omp_get_wtime(); 
+	MPI_Finalize();
+
+
+}
+
+int computeCyclicOne(int inputInt, int rank, int worldSize) {
+
 	int foundPrimes = 0;
-		for(int current = 2; current < monInt; current++) {
+	// Cyclic pas == 1
+	for(int current = 2 + rank; current < inputInt; current += worldSize ) {
 		int i = 2;
 		bool isPrime = true;
 		while(i < current && isPrime) {
@@ -41,13 +63,7 @@ int main()
 		if(isPrime) {
 			foundPrimes++;
 		}
-	} 
-
-	MPI_Reduce(&sendbuf,&recvbuf,len,type,op,root, comm);
-
-	//double t1 = omp_get_wtime();
-	cout << "Found " << foundPrimes << " prime numbers between 1 and " << monInt << "; ";
-	cout << t1-t0 << " wtime() elapsed " <<endl; 
-
+	}
+	return foundPrimes;
 
 }
