@@ -1,17 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "bezier2d.h"
+#include "bezierSubdivision.h"
 
-
-static int numberOfOutputPoints = 100;
-static int iterMax = 2;
+static int iterMax = 1;
 
 int main()
 { 
 
   POINT* controlPoints;
   int numberOfControlPoints;
+  int numberOfGenPoints;
 
   // import data
   controlPoints = importDataFile(&numberOfControlPoints);
@@ -19,17 +18,17 @@ int main()
   // Generate curve data
   printf("About to call generateBezierSubdivision()\n");
   POINT* curveData;
-  curveData = generateBezierSubdivision(controlPoints, numberOfControlPoints-1, iterMax);
+  curveData = generateBezierSubdivision(controlPoints, numberOfControlPoints-1, iterMax, &numberOfGenPoints );
 
   // Print out data
   int i;
-  for(i=0; i<numberOfOutputPoints; i++)
+  for(i=0; i<numberOfGenPoints; i++)
   {
     printf("point %d, x=%lf, y=%lf\n", i, curveData[i].x, curveData[i].y);
   } 
   
   // Save points
-  saveOutputPoints(curveData, numberOfOutputPoints);
+  saveOutputPoints(curveData, numberOfGenPoints);
 
 
   // Free memory
@@ -40,11 +39,13 @@ int main()
 
 POINT* generateBezierSubdivision(POINT* controlBox, 
                                     int n, 
-                                    int maxIter)
+                                    int jmax,
+                                    int * numberOfGenPoints)
 {
 
   // Will hold the result points
-  POINT* curvePoints = (POINT *)malloc(sizeof(POINT) * getElementaryBufferSize(n) * 2^jmax);
+  *numberOfGenPoints = getElementaryBufferSize(n) * 2^jmax;
+  POINT* curvePoints = (POINT *)malloc(sizeof(POINT) * *numberOfGenPoints);
   
   printf("Copying control points into workBuffer\n");
   
@@ -55,9 +56,9 @@ POINT* generateBezierSubdivision(POINT* controlBox,
 	  curvePoints[n+i].y = controlBox[i].y;
   }
 
-  performSubdivision(workBuffer, n, 0, maxIter);
+  performSubdivision(curvePoints, n, 0, jmax, 1, 1);
 
-  return workBuffer;
+  return curvePoints;
   
 }
 
@@ -71,8 +72,8 @@ void performSubdivision(POINT * workBuffer, int n, int j, int jmax, int sourceSl
 	int bufferSize = getElementaryBufferSize(n);
 
 	// the output slot is algebraically computed from the source slot
-	inputBuffer = workBuffer + sourceSlot * bufferSize; 
-	outputBuffer = workBuffer + outputSlot * bufferSize;
+	POINT* inputBuffer = workBuffer + sourceSlot * bufferSize; 
+	POINT* outputBuffer = workBuffer + outputSlot * bufferSize;
 
 	// If output slot is pair, we are working with a right buffer
 	if(outputSlot % 2 == 0) {
@@ -84,14 +85,14 @@ void performSubdivision(POINT * workBuffer, int n, int j, int jmax, int sourceSl
 
 	if(j < jmax) {
 		// For this to work, slots must be numbered from 1, not 0 !!
-		int rightOutputSlot = slot * 2;
+		int rightOutputSlot = outputSlot * 2;
 		int leftOutputSlot = rightOutputSlot - 1;
 	
-		int leftSourceSlot 		= slot;
-		int rightSourceSlot 	= slot;
+		int leftSourceSlot 		= sourceSlot;
+		int rightSourceSlot 	= sourceSlot;
 	
 		POINT * leftBuffer 		= workBuffer + bufferSize * leftOutputSlot;
-		POINT * rightBuffer 	= 	workBuffer + bufferSize * rightOutputSlot
+		POINT * rightBuffer 	= 	workBuffer + bufferSize * rightOutputSlot;
 		
 		performSubdivision(workBuffer, n, j+1,  jmax, rightSourceSlot, rightOutputSlot);
 		performSubdivision(workBuffer, n, j+1,  jmax, leftSourceSlot, leftOutputSlot);
@@ -113,8 +114,8 @@ void elementarySubdivision(POINT * pointsBuffer, POINT * gdBuffer, int n ) {
 
   // Copy control box
   for(i = 0; i < n+1; i++) {
-  	dbuffer[n+1+i].x = pointsBuffer[i].x;
-  	dbuffer[n+1+i].y = pointsBuffer[i].y;
+  	gdBuffer[n+1+i].x = pointsBuffer[i].x;
+  	gdBuffer[n+1+i].y = pointsBuffer[i].y;
   }
 
   for(k = 0; k < n; k++) {
@@ -122,7 +123,7 @@ void elementarySubdivision(POINT * pointsBuffer, POINT * gdBuffer, int n ) {
     gdBuffer[k].x = pointsBuffer[0].x;
     gdBuffer[k].y = pointsBuffer[0].y;
 
-    for(i = O; i < (n-k); i++) {
+    for(i = 0; i < (n-k); i++) {
       pointsBuffer[i].x = deCasteljauONE(0.5, pointsBuffer[i].x, pointsBuffer[i].x);
       pointsBuffer[i].y = deCasteljauONE(0.5, pointsBuffer[i].y, pointsBuffer[i].y);
     }
