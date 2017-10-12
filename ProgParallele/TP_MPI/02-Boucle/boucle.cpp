@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	int inputInt = 0;
 	int initRingNum = 0;
 	int ringNum = 0;
-	int printMsg = 1; // Print by default
+	int printMsg = 0; // Print by default
 
 	if(rank == MASTER_RANK) {
 
@@ -38,12 +38,12 @@ int main(int argc, char *argv[])
 			if(strcmp("numRings", argv[i]) == 0) {
 				sscanf(argv[i+1], "%d", &ringNum);
 			}
-			printMsg = 0;
 
 		}
 
 		if( (inputInt == 0) || (ringNum == 0)) {
-	
+
+			printMsg = 1;
 			// Retrieve the numbers
 			cout << "Veuillez saisir un nombre entier: " << endl;
 			cin >> inputInt;
@@ -99,22 +99,24 @@ int main(int argc, char *argv[])
 			cout << " from rank " << sender << endl;	
 		}
 	
-		int nextRank;
-		if(rank == worldSize - 1) {
-			nextRank = MASTER_RANK;
-		} else {
-			nextRank = rank + 1;
+		int nextRank = rank + 1;
+		if(nextRank >= worldSize) {
+			nextRank = MASTER_RANK;	
 		}
 	
 		MPI_Send(recvBuf, count, MPI_FLOAT, nextRank, TAG_RING, MPI_COMM_WORLD);
+
+		delete[] recvBuf;
 	
 	}
+
+	cout << rank <<" haz arrived!" << endl;
 
 	MPI_Barrier(MPI_COMM_WORLD);
 	double t1 = MPI_Wtime();
 
 	if(rank == MASTER_RANK) {
-		cout << inputInt << " " << ringNum << " " << t1 -t0 << endl; 
+		cout << inputInt << " " << initRingNum << " " << t1 -t0 << endl; 
 	}
 
 	MPI_Finalize();
