@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <cstring>
 #include "mpi.h"
 
 using namespace std;
@@ -19,18 +20,34 @@ int main(int argc, char *argv[])
 	MPI_Comm_size(MPI_COMM_WORLD,&worldSize);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-	int inputInt, ringNum;
+	int inputInt = 0;
+	int ringNum = 0;
+
 	if(rank == MASTER_RANK) {
 
 		// Init rand() seed
 		srand(time(NULL));
 
-		// Retrieve the numbers
-		cout << "Veuillez saisir un nombre entier: " << endl;
-		cin >> inputInt;
+		//Handle args if possibles
+		for(int i=0; i < argc; i++) {
+			if(strcmp("numFloats", argv[i]) == 0) {
+				sscanf(argv[i+1], "%d", &inputInt);
+			}
+			if(strcmp("numRings", argv[i]) == 0) {
+				sscanf(argv[i+1], "%d", &ringNum);
+			}
 
-		cout << endl << "Combien de tours effectuer? " << endl;
-		cin >> ringNum;
+		}
+
+		if( (inputInt == 0) || (ringNum == 0)) {
+	
+			// Retrieve the numbers
+			cout << "Veuillez saisir un nombre entier: " << endl;
+			cin >> inputInt;
+	
+			cout << endl << "Combien de tours effectuer? " << endl;
+			cin >> ringNum;
+		}
 	}
 
 	// Broadcast the number of times the ring must go round
