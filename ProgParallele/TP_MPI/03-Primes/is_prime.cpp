@@ -1,10 +1,9 @@
 #include <iostream>
 #include "mpi.h"
 
-const int MASTER_RANK = 0;
-
-
 using namespace std;
+
+const int MASTER_RANK = 0;
 
 int computeCyclicOne(int inputInt,int rank, int worldSize);
 
