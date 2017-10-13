@@ -74,6 +74,9 @@ int main(int argc, char *argv[])
 
 		// Send the buffer
 		MPI_Send(buffer, inputInt, MPI_FLOAT, 1, TAG_RING, MPI_COMM_WORLD);
+
+
+		ringNum--;
 	}
 
 	while(ringNum > 0) {
@@ -82,9 +85,10 @@ int main(int argc, char *argv[])
 
 		// Here all process wait for their next message
 		MPI_Status status;
-		MPI_Probe(MPI_ANY_SOURCE, TAG_RING,MPI_COMM_WORLD, &status);
+		MPI_Probe(MPI_ANY_SOURCE, TAG_RING, MPI_COMM_WORLD, &status);
 		int count;
 		MPI_Get_count(&status, MPI_FLOAT, &count);
+
 	
 		// Allocate receive buffer
 		float * recvBuf = new float[count];
@@ -100,20 +104,25 @@ int main(int argc, char *argv[])
 		}
 	
 		int nextRank = rank + 1;
+		bool canSend = true;
 		if(nextRank >= worldSize) {
 			nextRank = MASTER_RANK;	
+			if(ringNum == 0) {
+				canSend = false;
+			}
 		}
-	
-		MPI_Send(recvBuf, count, MPI_FLOAT, nextRank, TAG_RING, MPI_COMM_WORLD);
+
+		if(canSend) {
+			MPI_Send(recvBuf, count, MPI_FLOAT, nextRank, TAG_RING, MPI_COMM_WORLD);
+		}
 
 		delete[] recvBuf;
 	
 	}
 
-	cout << rank <<" haz arrived!" << endl;
-
 	MPI_Barrier(MPI_COMM_WORLD);
 	double t1 = MPI_Wtime();
+
 
 	if(rank == MASTER_RANK) {
 		cout << inputInt << " " << initRingNum << " " << t1 -t0 << endl; 
