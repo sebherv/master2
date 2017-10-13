@@ -3,16 +3,10 @@
 exec 3>&2
 exec 2> /dev/null
 
-for m in 10 50 100 500 1000 5000
-	do
-	for n in {100..5000..100}
-		do
-			mpirun -hostfile hosts -np 2 ./boucle numFloats $n numRings $m 
-	done
-	for n in {5000..50000..1000}
-		do
-			mpirun -hostfile hosts -np 2 ./boucle numFloats $n numRings $m 
-	done
+for val in 100 1000 10000 20000 40000 80000
+do
+	mpirun -hostfile hosts -np 4 ./is_prime value $val mode_block
+	mpirun -hostfile hosts -np 4 ./is_prime value $val mode_cyclic
 done
 
 exec 2>&3
