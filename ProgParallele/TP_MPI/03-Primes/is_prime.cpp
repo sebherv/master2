@@ -22,13 +22,15 @@ int main(int argc, char *argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
 	int inputInt=0;
-	int mode = 100;
+	int mode = MODE_BLOCK;
+	bool printLong = true;
 
 	if(rank == MASTER_RANK) {
 
 		for(int i=0; i < argc; i++) {
 			if(strcmp("value", argv[i])==0) {
 				sscanf(argv[i+1], "%d", &inputInt);
+				printLong = false;
 			}
 			if(strcmp("mode_block", argv[i])==0) {
 				mode = MODE_BLOCK;
@@ -46,6 +48,7 @@ int main(int argc, char *argv[])
 
 	// First broadcast the int
 	MPI_Bcast(&inputInt, 1, MPI_INT, MASTER_RANK, MPI_COMM_WORLD);
+	MPI_Bcast(&mode, 1, MPI_INT, MASTER_RANK, MPI_COMM_WORLD);
 	
 	MPI_Barrier(MPI_COMM_WORLD);
 	int foundPrimes = 0;
@@ -58,13 +61,18 @@ int main(int argc, char *argv[])
 
 	int reducedResult;
 	MPI_Reduce(&foundPrimes,&reducedResult,	1,MPI_INT,MPI_SUM,MASTER_RANK, MPI_COMM_WORLD);
-
 	MPI_Barrier(MPI_COMM_WORLD);
+
 	double t1 = MPI_Wtime();
 
 	if(rank == MASTER_RANK) {	
-		cout << "Found " << reducedResult << " prime numbers between 1 and " << inputInt << "; ";
-		cout << t1-t0 << " wtime() elapsed " <<endl; 
+		if(printLong) {
+			cout << "Found " << reducedResult << " prime numbers between 1 and " << inputInt << "; ";
+			cout << t1-t0 << " wtime() elapsed " <<endl; 
+		} else {
+			// for time analysis purpose
+			cout << inputInt << " " << reducedResult << " " << mode << " "<< t1 - t0 << endl;
+		}
 	}
 
 	MPI_Finalize();
@@ -114,16 +122,18 @@ int computeBloc(int inputInt, int rank, int worldSize) {
 		}
 	}
 
-	blockEnd += (rank < remainder) ? blockWithRemainderSize : blocSize;
+	blockEnd +=  blockStart + ((rank < remainder) ? blockWithRemainderSize : blocSize);
+
+	//cout << "rank " << rank << " has blockStart = " << blockStart << " and blockEnd = " << blockEnd << endl;
 	
 	for(int current = blockStart;
 		current < blockEnd;
 		current++ ) {
-		current += 2; // Keep in mind we don't count 0 and 1.
+		int valToTest = current + 2; // Keep in mind we don't count 0 and 1.
 		int i = 2;
 		bool isPrime = true;
-		while(i < current && isPrime) {
-			if(current % i == 0) {
+		while(i < valToTest && isPrime) {
+			if(valToTest % i == 0) {
 				isPrime = false;
 			}
 			i++;
