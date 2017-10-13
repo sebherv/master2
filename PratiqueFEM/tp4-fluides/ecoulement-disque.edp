@@ -1,0 +1,30 @@
+// Résolution du problème d'écoulement
+
+// Domaine géométrique et maillage
+real R1=0.5, R2=5;
+int N= 61;
+border Gamma1(t=0, 2*pi){x=R1*cos(t); y=R1*sin(t);label=2;};
+border Gamma2(t=0, 2*pi){x=R2*cos(t); y=R2*sin(t);label=1;};
+mesh Th=buildmesh(Gamma1(-N)+Gamma2(N));
+
+plot(Th,ps="maillage.eps");
+
+// Espace éléments finis et formulation variationnelle
+fespace Vh(Th,P2);
+Vh phi,psi;
+
+macro grad(u)[dx(u),dy(u)]//
+real u1oo=10;			// valeur de la vitesse horizontale à l'infini
+func phioo=u1oo*y;		// expression de la fonction courant à l'infini
+
+solve ecoul(phi,psi)= int2d(Th)(grad(phi)'*grad(psi)) 
+		+on(2,phi = 0) +on(1,phi = phioo);
+
+Th = adaptmesh(Th,phi, err=0.0005);
+plot(Th);
+ecoul; // On résout à nouveau le problème sur ce nouveau maillage
+plot(phi);
+
+Vh u1=dy(phi), u2=-dx(phi); // Composante du vecteur vitesse
+plot([u1,u2]);
+
