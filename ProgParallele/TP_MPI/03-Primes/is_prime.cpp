@@ -97,13 +97,29 @@ int computeBloc(int inputInt, int rank, int worldSize) {
 
 	int foundPrimes = 0;
 
-	int blocSize = (inputInt - 2) / worldSize;
+	int blocSize = (inputInt - 2) / worldSize; // Keep in mind we don't count 0 and 1.
 	int remainder =(inputInt - 2) % worldSize;
+	int blockWithRemainderSize = blocSize + 1;
 
+	// Compute indexes for block start and block end
+	int blockStart = 0;
+	int blockEnd = 0;
+	for(int i = 0 ; i < rank; i++) {
+		// First spread the remainder to the first n ranks
+		// end shit the block start and end indexes accordingly
+		if(i < remainder) {
+			blockStart += blockWithRemainderSize;
+		} else {
+			blockStart += blocSize;
+		}
+	}
+
+	blockEnd += (rank < remainder) ? blockWithRemainderSize : blocSize;
 	
-	for(int current = 2 + (rank * blocSize);
-		current < 2 + blocSize * (rank + 1) + (rank + 1 > remainder) ? 0 : 1 ;
+	for(int current = blockStart;
+		current < blockEnd;
 		current++ ) {
+		current += 2; // Keep in mind we don't count 0 and 1.
 		int i = 2;
 		bool isPrime = true;
 		while(i < current && isPrime) {
