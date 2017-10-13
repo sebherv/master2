@@ -9,7 +9,7 @@ for m in 10 50 100 500
 		do
 			mpirun -np 4 ./boucle numFloats $n numRings $m 
 	done
-	for n in {5000..10000..1000}
+	for n in {5000..50000..500}
 		do
 			mpirun -np 4 ./boucle numFloats $n numRings $m 
 	done
