@@ -1,4 +1,4 @@
+#include "point.h"
 
-
-POINT* importDataFile(int * numberOfControlPoints);
-void saveOutputPoints(POINT* pointsToSave, int numberOfPoints);
+POINTS_ARRAY* importDataFile(char* filename);
+void saveOutputPoints(POINT_ARRAY* outputPoints);

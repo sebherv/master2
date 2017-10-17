@@ -1,20 +1,20 @@
 
 
-// Structure pour stocker un point de dimension arbitraire
+
 typedef struct POINT {
-	double * values;
-} POINT;
+	double * val;
+}
 
 
 // Structure pour encapsuler une liste de points de dimension dim
 // Tous les points auront une dimension dim
-typedef struct POINTS {
+typedef struct POINTS_ARRAY {
 	int dim;
-	int size;
-	POINT * 
-}
+	int size; 
+	double * val  // TODO ACCESS AS TABLE ??
+} POINTS_ARRAY;
 
-POINTS * allocPoints(int dim, int size);
-void freePoints(POINTS * points);
+POINTS_ARRAY * allocPoints(int dim, int size);
+void freePoints(POINTS_ARRAY * pointsArray);
 
 

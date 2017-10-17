@@ -1,0 +1,727 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fil",
+				"filename"
+			],
+			[
+				"poin",
+				"pointsArray"
+			],
+			[
+				"p",
+				"pointsArray"
+			],
+			[
+				"v",
+				"val"
+			],
+			[
+				"nu",
+				"numberOfGenPoints"
+			],
+			[
+				"number",
+				"numberOfGenPoints"
+			],
+			[
+				"sou",
+				"sourceSlot"
+			],
+			[
+				"so",
+				"sourceSlot"
+			],
+			[
+				"cur",
+				"curvePoints"
+			],
+			[
+				"j",
+				"jmax"
+			],
+			[
+				"out",
+				"outputSlot"
+			],
+			[
+				"rig",
+				"rightSource"
+			],
+			[
+				"get",
+				"getElementaryBufferSize"
+			],
+			[
+				"l",
+				"leftSource"
+			],
+			[
+				"buffer",
+				"bufferSize"
+			],
+			[
+				"ri",
+				"rightSlot"
+			],
+			[
+				"le",
+				"leftSlot"
+			],
+			[
+				"buff",
+				"bufferSize"
+			],
+			[
+				"work",
+				"workBuffer"
+			],
+			[
+				"lef",
+				"leftPosition"
+			],
+			[
+				"wor",
+				"workBuffer"
+			],
+			[
+				"getEval",
+				"getEvalBufferIndex"
+			],
+			[
+				"eva",
+				"evalBufferSize"
+			],
+			[
+				"re",
+				"return"
+			],
+			[
+				"curr",
+				"current"
+			],
+			[
+				"r",
+				"readValues"
+			],
+			[
+				"fp",
+				"fptr"
+			],
+			[
+				"numberO",
+				"numberOfLines"
+			],
+			[
+				"sort",
+				"sortArray"
+			],
+			[
+				"c",
+				"checkArraySorted"
+			],
+			[
+				"ar",
+				"arraySize"
+			],
+			[
+				"in",
+				"initialIndex"
+			],
+			[
+				"a",
+				"arraySize"
+			],
+			[
+				"en",
+				"endif"
+			],
+			[
+				"getB",
+				"getBufferSize"
+			],
+			[
+				"cu",
+				"currentPoint"
+			],
+			[
+				"cont",
+				"controlBox"
+			],
+			[
+				"current",
+				"currentX"
+			],
+			[
+				"res",
+				"resultPoint"
+			],
+			[
+				"contr",
+				"controlPts"
+			],
+			[
+				"d",
+				"dumpToCout"
+			],
+			[
+				"n",
+				"n"
+			],
+			[
+				"g",
+				"getCij"
+			],
+			[
+				"b",
+				"buffer"
+			],
+			[
+				"numberOfC",
+				"numberOfControlPoints"
+			],
+			[
+				"num",
+				"numberOfPointAtEndOfIteration"
+			],
+			[
+				"x",
+				"x"
+			],
+			[
+				"nom",
+				"numberOfControlPoints"
+			],
+			[
+				"y",
+				"yvalues"
+			],
+			[
+				"si",
+				"sizeof"
+			],
+			[
+				"ma",
+				"malloc"
+			],
+			[
+				"POIN",
+				"POINT"
+			],
+			[
+				"numberOf",
+				"numberOfControlPoints"
+			],
+			[
+				"to",
+				"toReturn"
+			],
+			[
+				"di",
+				"diag"
+			],
+			[
+				"m",
+				"middle"
+			],
+			[
+				"V",
+				"VAR_DECREASING"
+			],
+			[
+				"nm",
+				"nminx"
+			],
+			[
+				"VA",
+				"VAR_STABLE"
+			],
+			[
+				"VAR_",
+				"VAR_DECREASING"
+			],
+			[
+				"ex",
+				"expXi"
+			],
+			[
+				"erro",
+				"errorf"
+			],
+			[
+				"do",
+				"double"
+			],
+			[
+				"iex",
+				"iexpd"
+			],
+			[
+				"ie",
+				"iexpf"
+			],
+			[
+				"rec",
+				"rectexpd"
+			],
+			[
+				"inc",
+				"include"
+			],
+			[
+				"curre",
+				"currentPolyAreaDouble"
+			],
+			[
+				"pr",
+				"printIterationResult"
+			],
+			[
+				"co",
+				"computeNextSinDouble"
+			],
+			[
+				"com",
+				"computeCurrentPolyAreaDouble"
+			],
+			[
+				"it",
+				"iterateFloat"
+			],
+			[
+				"currentSinF",
+				"currentSinFloat"
+			],
+			[
+				"currentPolyArea",
+				"currentPolyAreaDouble"
+			],
+			[
+				"pri",
+				"printLine"
+			],
+			[
+				"f",
+				"floatArray"
+			],
+			[
+				"fl",
+				"floatVar"
+			],
+			[
+				"flo",
+				"float"
+			],
+			[
+				"print",
+				"printBits"
+			],
+			[
+				"float",
+				"floatVar"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "fileUtils.h",
+			"settings":
+			{
+				"buffer_size": 115,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "point.c",
+			"settings":
+			{
+				"buffer_size": 429,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "point.h",
+			"settings":
+			{
+				"buffer_size": 360,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "#include \"fileUtils.h\"\n\n\nPOINTS_ARRAY* importDataFile(char* filename) {\n\n\tint dim, np;\n\tFILE* fp = fopen(filename,\"r\");\n\n\n\tif(fp == NULL) {\n\t\tprintf(\"Could not open input file: %s\\n\", filename );\n\t\texit(1);\n\t}\n\n\t// Read first line\n\tfscanf(\"%d %d\", &dim, &np);\n\tprintf(\"Reading %d points of R%d\\n\", np, dim );\n}\n\n\nvoid saveOutputPoints(POINT_ARRAY* outputPoints){\n\n} ",
+			"file": "fileUtils.c",
+			"file_size": 0,
+			"file_write_time": 131520926640000000,
+			"settings":
+			{
+				"buffer_size": 366,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 300.0,
+		"last_filter": "pain",
+		"selected_items":
+		[
+			[
+				"pain",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Install Package Control"
+			]
+		],
+		"width": 447.0
+	},
+	"console":
+	{
+		"height": 130.0,
+		"history":
+		[
+			"ll"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/sebh/Desktop/MasterII/repos_master2/ananum/cao/exemple.c",
+		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp2/bezierSubdivision.c",
+		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp2/contpoints.dat",
+		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp2/bezierSubdivision.h",
+		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp2/bezier_result.dat",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/TP_MPI/01-pingpong/pingpong.cpp",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/04_subsearch/tranposeSort.cpp",
+		"/Users/sebh/Desktop/MasterII/repos_master2/PratiqueFEM/tp2-magstatique/calculCoiffeP1.edp",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/05_dynmoleculaire/md.cpp",
+		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp1/contpoints.dat",
+		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp1/bezier2d.h",
+		"/Users/sebh/Desktop/MasterII/repos_master2/OutilsMathCAO/TPs/tp1/bezier2d.c",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/04_subsearch/transposeSort.h",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/04_subsearch/transposeSort.sublime-project",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/01_mat_mul/matrix.cpp",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/01_mat_mul/mat_mul.cpp",
+		"/Users/sebh/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/01_mat_mul/matrix.h",
+		"/Users/sebh/.bashrc",
+		"/Users/sebh/Desktop/MasterII/OutilsMathCAO/TPs/tp1/bezier2d.c",
+		"/Users/sebh/Desktop/MasterI/fortran/helloworld/hellowork.f90",
+		"/Users/sebh/Desktop/MesTPs/MSPP/TP2/f.m",
+		"/Users/sebh/Desktop/MesTPs/MSPP/TP2/fdequation.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/pmeval.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/tp3_3_k_2.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/tp3_1.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/tp3_2.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/tp3_3.m",
+		"/Users/sebh/Desktop/MesTPs/MéthodesNumériques/TP3/lagrangem.m",
+		"/Users/sebh/Desktop/Elhaji/MSPP/mcr/toolbox/compiler/keyboard.m",
+		"/Users/sebh/Documents/MATLAB/mysparcenbyn.m",
+		"/Users/sebh/Documents/MATLAB/script2.m",
+		"/Users/sebh/Documents/MATLAB/iter.m",
+		"/Users/sebh/Documents/MATLAB/f.m",
+		"/Users/sebh/Documents/MATLAB/script1.m",
+		"/Users/sebh/Desktop/Elhaji/MethNum/tp2/correction/tp2_partie1/dichotomie.m",
+		"/Users/sebh/Desktop/TP C/TP7/tp7_2_pi_archimede.c",
+		"/Users/sebh/Desktop/TP C/TP7/tp_7_1.c",
+		"/Users/sebh/Desktop/Projets/LangageC/Helloworld/dumpfloat.c",
+		"/Users/sebh/Desktop/Projets/LangageC/Helloworld/helloworld.c",
+		"/Users/sebh/Library/Application Support/Sublime Text 3/Packages/User/gcc.sublime-build"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"pointsPts",
+			"toReturn"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "fileUtils.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 115,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								115,
+								20
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "point.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 429,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								429,
+								429
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "point.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 360,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								40,
+								40
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "fileUtils.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 366,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								291,
+								291
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 155.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/gcc.sublime-build",
+	"project": "interpolation.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Desktop/MasterII/repos_master2/ProgParallele/introOpenMP/03_Histogram/histogram.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 1,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
