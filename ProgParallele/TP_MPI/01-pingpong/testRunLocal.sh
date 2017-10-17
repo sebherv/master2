@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# Rediriger stderr vers /dev/null
 exec 3>&2
 exec 2> /dev/null
 
+# Boucle d'execution
 for m in 10 50 100 500 1000 5000
 	do
 	for n in {100..5000..100}
@@ -15,4 +17,5 @@ for m in 10 50 100 500 1000 5000
 	done
 done
 
+# Restaurer stderr vers stderr
 exec 2>&3
