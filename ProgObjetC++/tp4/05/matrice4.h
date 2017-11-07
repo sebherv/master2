@@ -23,7 +23,6 @@ public:
 
 	// Autres
 	void affiche();
-
 };
 
 #endif

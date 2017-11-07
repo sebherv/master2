@@ -1,4 +1,4 @@
-#include "matrice2.h"
+#include "matrice4.h"
 #include <iostream>
 #include <cassert>
 

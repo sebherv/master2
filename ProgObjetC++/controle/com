@@ -1,0 +1,31 @@
+#!/bin/bash
+
+g++ p12.c++ trajet.c++ -o p12
+
+g++ p13.c++ trajet.c++ -o p13
+
+g++ p14.c++ trajet.c++ -o p14
+
+g++ p15.c++ trajet.c++ -o p15
+
+g++ p16.c++ trajet.c++ -o p16
+
+g++ p17.c++ trajet.c++ -o p17
+
+g++ p18.c++ trajet.c++ -o p18
+
+g++ p19.c++ trajet.c++ -o p19
+
+
+
+g++ p21.c++ chaine.c++ -o p21
+
+g++ p22.c++ chaine.c++ -o p22
+
+g++ p23.c++ chaine.c++ -o p23
+
+
+
+
+ g++ p31.c++ majmin.c++ chaine.c++ -o p31.c++ 
+
