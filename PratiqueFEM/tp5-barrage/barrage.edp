@@ -1,0 +1,30 @@
+// --- calcul des déplacements d'un barrage de retenue
+
+real Ax=150, Ay=0, Bx=180, By=0, Cx=-90, Cy=180*sin(2*pi/3), Dx=-75, Dy=150*sin(2*pi/3);
+
+real RA = 150;
+real RB = 180;
+
+border Gamma1(t=0,1){x=Ax+(Bx-Ax)*t; y=0;label=1;};   // roche
+border Gamma2(t=0,2*pi/3){x=RB*cos(t); y=RB*sin(t); label=2;}; // paroi humide
+border Gamma3(t=0,1){x=Cx+(Dx-Cx)*t; y=Cy+(Dy-Cy)*t; label=1;};  //roche
+border Gamma4(t=2*pi/3,0){x=RA*cos(t); y=RA*sin(t); label=3;}; // paroi seche
+
+mesh ThBase = buildmesh(Gamma1(1)+Gamma2(8)+Gamma3(1)+Gamma4(8));
+plot(ThBase);
+
+load "msh3"
+
+func fx=x*(1+6*z/(5*sqrt(x^2+y^2)) - z/150);
+func fy=y*(1+6*z/(5*sqrt(x^2+y^2)) - z/150);
+func fz=z;
+
+int[int] refmi=[1,1,2,2,3,3];
+int[int] refbas=[0,1];
+int[int] refhau=[0,3];
+mesh3 Th=buildlayers(ThBase, 10,  zbound=[0,100], labelmid=refmi, labelup=refhau,
+				labeldown=refbas, transfo=[fx,fy,fz]);
+
+plot(Th);
+
+
