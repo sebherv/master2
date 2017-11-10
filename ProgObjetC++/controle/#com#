@@ -27,5 +27,5 @@ g++ p23.c++ chaine.c++ -o p23
 
 
 
- 
+ g++ p31.c++ majmin.c++ chaine.c++ -o p31
 
