@@ -8,6 +8,8 @@ q = 1;
 pZ = 1-(1-pX).^2;
 pX=pX'; pY=pY'; pZ=pZ';
 
-header = [p q 0];
+
+
+header = [p+1 q+1 3];
 val=[pX(:) pY(:) pZ(:)];
 save P.dat header val -ascii;
