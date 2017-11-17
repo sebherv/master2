@@ -1,0 +1,6 @@
+real L=1; // size of the plate in m
+int N=30; // nb of discrtization nodes per square edge
+mesh Th=square(N,N,[L*x, L*y]);
+plot(Th);
+real k = 400; //thermal conductivity of copper, W/(m-K)
+real tz = .01 

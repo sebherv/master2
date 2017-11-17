@@ -1,0 +1,37 @@
+// ---- Geometric domain and mesh ----
+real R=0.5;
+real Lx=1, Ly=1;
+border Gamma1(t=-1,1){x=Lx*t; y=-Ly; label=1;};
+border Gamma2(t=-1,1){x=Lx;y=Ly*t; label=1;};
+border Gamma3(t=-1,1){x=-Lx*t;y=Ly; label=1;};
+border Gamma4(t=-1,1){x=-Lx;y=-Ly*t; label=1;};
+border Gamma5(t=0,2*pi){x=R*cos(t);y=R*sin(t); label=2;};
+int n=20;
+mesh Th=buildmesh(Gamma1(n)+ Gamma2(n)+ Gamma3(n)+ Gamma4(n)+ Gamma5(-2*n));
+plot(Th, wait=true,ps="maillage_1.eps");
+// ---- Data ----
+func f=-x*y*(x^2*y+5*(x^2+y^2)-11); // source term in Omega
+func g=(x-x^3)*(y-y^3); //source term on Gamma5
+func u0=(x-x^3)*(y-y^3); // initial data
+// ---- Finite element space and weak formulation -----
+int N=200; // Number of time discretisation nodes
+real T=1, dt=T/N;  // time duration and time step
+fespace Vh(Th,P2);
+Vh u,v,uold,uex;
+macro grad(u) [dx(u), dy(u)] // end of macro
+u=u0; // initialisation
+for(real t=0; t<T;t+=dt) { // loop over the time discretization nodes
+	uold=u;
+	solve chaleur(u,v)=int2d(Th)(u*v/dt + grad(u)'*grad(v))
+					-int2d(Th)(f*v*exp(-t)+uold*v/dt)
+					+on(1,u=0)+on(2,u=g*exp(-t)); // the variationnal problem is solved
+}
+
+// ---- draw the solutions and compute the error
+plot(u,wait=true);
+uex=(x-x^3)*(y-y^3)*exp(-T);
+Vh err = abs(uex-u);
+real L2err=sqrt( int2d(Th)((u-uex)^2)/ int2d(Th)(uex^2));
+cout << "Erreur L2 relative (%)= " << 100*L2err << endl;
+plot(uex,wait=true);
+plot(err,wait=true);
