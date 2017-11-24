@@ -1,15 +1,17 @@
-clear all;
+//clear all;
 
-load('d2.dat');
+//load('d2.dat');
+
+figure;
 sigma = 8.0;
 e=ones(20,1);
 C=ones(1,20);
-Ct=diag(C)*sigma;
+Ct=diag(C)/sigma;
 x=linspace(1,10,20);
 plot(X,d2,"ro");
 
 // Problème inverse
-m=zeros(5,5);
+MODELES=zeros(5,5);
 y=zeros(20,5);
 
 
@@ -72,10 +74,12 @@ chi(2) = sum(y2err)/20;
 chi(3) = sum(y3err)/20;
 chi(4) = sum(y4err)/20;
 
+chi = chi/20
+
 figure
 plot([1;2;3;4],chi);
 
 
 
-
+ 
 
