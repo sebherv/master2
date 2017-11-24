@@ -1,0 +1,108 @@
+/***OBJECTIF RESOUDRE UN PROBLEME AUX VALEUS POUR UN MICRORESONNATEUR***********************************/
+
+// PREMIERE PARTIE: SANS PML AVEC CONDITION DE DIRICHLET HOMOGENE
+
+/************DEFINITION DU DOMAINE****************************/
+real R1=3;
+real R2=4;
+real R=9;
+int n=50;
+//construction du omega1
+border Gamma1(t=0, 1){x=R1*cos(2*pi*t); y=R1*sin(2*pi*t);};
+//mesh omega1=buildmesh(Gamma1(n));
+border Gamma2(t=0, 1){x=R2*cos(2*pi*t); y=R2*sin(2*pi*t);};
+//mesh omega2=buildmesh(Gamma1(-n)+Gamma2(n));
+//plot(omega2);
+// construction de l'anneau omega3 qui represente le reste du domaine
+border Gamma3(t=0, 1){x=R*cos(2*pi*t); y=R*sin(2*pi*t);};
+//mesh omega3=buildmesh(Gamma2(-n)+Gamma3(n));
+//plot(omega3);
+// construction du domaine d'étude
+mesh omega=buildmesh(Gamma1(n) + Gamma2(n) + Gamma3(n));
+plot(omega);
+
+// Recupérer identifiant region pour chaque régions:
+real trou = omega(0,0).region;
+real disk	= omega(0, (R2+R1)/2).region;
+real exterieur = omega(0, (R+R2/2)).region;
+cout << "Region trou: " << trou << endl;
+cout << "Region disk: " << disk << endl;
+cout << "Region exterieur: " << exterieur << endl;
+
+/***********RESOLUTION DU PROBLEME POUR LE CHAMP E*****************/
+
+/************************FORMULATION VARIATIONNELLE DU PROBLEME************************/
+
+real mu0 = pi*4e-7;
+real murel = 1;
+real eps0 = 8.85418782e-12;
+real epsrel = 11.7;
+
+real om0 =  10000000;
+
+
+
+fespace Vh(omega, P2);
+Vh u, v;
+
+fespace Ph(omega, P0);
+Ph epsilon = ((eps0)		* (region == trou) +
+			 (eps0*epsrel)	* (region == disk) +
+			(eps0)		* (region == exterieur));
+
+Ph myregion = region;
+plot (epsilon);
+plot (myregion);
+cout << "epsilon(0,0): " << epsilon(0,0) << endl;
+cout << "epsilon(0,3.5): " << epsilon(0,3.5) << endl;
+cout << "epsilon(0,5): " << epsilon(0,5) << endl;
+
+real sigma = 1; // permet de selectionner les valeurs propres autour de la valeur de sigma  
+int nev = 5;  //nombre de valeurs propres
+real [int] ValpE(nev); // tableau de valeurs propres
+real [int] ValpM(nev); // tableau de valeurs propres
+Vh[int] VectpE(nev); // tableau pour les vecteurs propres
+Vh[int] VectpM(nev); // tableau pour les vecteurs propres
+
+macro grad(u) [dx(u), dy(u)] // end of macro
+
+//varf TE(u,v)=int2d(omega)(grad(u)'*grad(v)-om0*epsilon*u*v)+on(Gamma3,u=0);// membre principal formulation varitionnelle pour TE
+varf TE(u,v)=int2d(omega)(grad(u)'*grad(v))-epsilon*int2d(omega)(u*v)+on(Gamma3,u=0);// membre principal formulation varitionnelle pour TE
+
+varf TM(u,v)=int2d(omega)(grad(u)'*grad(v)-om0*epsilon*u*v);// membre principal formulation varitionnelle pour TE
+varf bvE([u],[v])=int2d(omega)(u*v);// second membre de l'equation dans le cas où il n'y a pas de condition de Neumann
+varf bvM([u],[v])=int2d(omega)(u*v);// second membre de l'equation dans le cas où il n'y a pas de condition de Neumann
+
+/**********************************RESOLUTION*******************************************/
+// Pour résoudre le problème aux valeurs propres, on introduit les matrices correspondantes
+
+// Definition de la matrice A
+matrix AE = TE(Vh, Vh, solver=Crout, factorize=1);
+matrix AM = TM(Vh, Vh, solver=Crout, factorize=1);
+// definition de la matrice B
+matrix BE = bvE(Vh, Vh, solver=CG, eps=1E-20);
+matrix BM = bvM(Vh, Vh, solver=CG, eps=1E-20);
+// Calcul des valeurs propres
+int kE=EigenValue(AE,BE,sym=true,sigma=sigma,value=ValpE,vector=VectpE,tol=1e-10,maxit=0,ncv=0);
+int kM=EigenValue(AM,BM,sym=true,sigma=sigma,value=ValpM,vector=VectpM,tol=1e-10,maxit=0,ncv=0);
+cout << kE <<endl;
+cout << kM <<endl;
+//real Energie;
+for (int i=0;i<nev;i++)
+{
+	//u=Vectp[i];
+	// Calcul de l'energie de chaque mode
+	//Energie=int2d(Th)(u*u); // On peut remarquer quel que soit le mode, l'énergie est toujours conservée
+	cout << ValpE[i] << endl;	
+	plot(VectpE[i], wait=1);
+}
+/*
+for (int i=0;i<kM;i++)
+{
+	//u=Vectp[i];
+	// Calcul de l'energie de chaque mode
+	//Energie=int2d(Th)(u*u); // On peut remarquer quel que soit le mode, l'énergie est toujours conservée
+	cout << ValpM[i] <<endl;	
+	plot(VectpM[i], wait=1);	
+}
+*/
