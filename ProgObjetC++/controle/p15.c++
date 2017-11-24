@@ -9,4 +9,4 @@ int main() {
 	T.modur(-15);
 	std::cout << "Après modification de durée" << std::endl;
 	T.print();
-}
+} 
