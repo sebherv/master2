@@ -17,13 +17,14 @@ void print(vector<vector<double> > matrice) {
 }
 
 int main() {
-	double tab1[] = {1.1,2.2,3.3,4.4,5.5,6.6,7.7,8.8,9.9};
+	/*double tab1[] = {1.1,2.2,3.3,4.4,5.5,6.6,7.7,8.8,9.9};
 	vector<vector<double> > matrice;
 
 	for(int i = 0; i < 9; i++) {
 		vector<double> current(tab1, tab1+9);
 		matrice.push_back(current);
-	}
+	} */
+	vector<vector<double> > matrice(4, vector<double>(5,8));
 
 	print(matrice);
 
