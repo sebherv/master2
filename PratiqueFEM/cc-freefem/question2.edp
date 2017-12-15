@@ -1,0 +1,51 @@
+real h = 1; // umetre
+real L = 5; // umetre
+real R = h/4; // rayon R
+
+real disqueX = L/4; // x centre disque
+real disqueY = h/2; // y centre disque
+
+
+// Outter borders
+border gammabot(t=0,1) {x=t*L; y=0; label=1;}
+border gammaRight(t=0,1) {x=L; y=t*h; label=2;}
+border gammatop(t=0,1) {x=L*(1-t); y=h; label=3;}
+border gammaLeft(t=0,1) {x=0; y=h*(1-t); label=4;}
+
+// Circle
+border disque(t=0,2*pi) {x=disqueX+R*cos(t);y=disqueY+R*sin(t);}
+
+
+
+int npum = 6;// node per um
+int nh = L * npum; // Nodes for top and bottom
+int nv = h * npum; // Nodes for left and right
+int nd = R*3*pi*npum; //Nodes for disque
+
+cout<< "nd:" << nd << endl;
+
+mesh Th = buildmesh(gammabot(nh)+gammaRight(nv)+gammatop(nh)+gammaLeft(nv)+disque(-nd));
+
+plot(Th, ps="maillage.eps");
+
+
+// Définition du calcul approché
+fespace Vh(Th,P2);
+Vh<complex> u,v;
+
+real k = 4.18879;
+int m = 0;
+real gammam = sqrt(k*k-(m*pi/h)^2);
+func gm=1i*gammam*cos(m*pi*y/h); // x1 is y
+
+problem harmo(u,v)= int2d(Th)([dx(u),dy(u)]'*[dx(v),dy(v)]) - int2d(Th)(k^2*u*v)
+		 - int1d(Th,4)(gm*v) + int1d(Th,2)(1i*k*u*v);
+//- int1d(Th,4)(gm*v)
+//+1i*k*int1d(Th,gammaRight)(u*v);
+
+
+harmo; // on resoud le problème
+
+plot(u);
+
+

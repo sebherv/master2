@@ -1,0 +1,29 @@
+real h = 1; // umetre
+real L = 5; // umetre
+real R = h/4; // rayon R
+
+real disqueX = L/4; // x centre disque
+real disqueY = h/2; // y centre disque
+
+
+// Outter borders
+border gammabot(t=0,1) {x=t*L; y=0;}
+border gammaRight(t=0,1) {x=L; y=t*h;}
+border gammatop(t=0,1) {x=L*(1-t); y=h;}
+border gammaLeft(t=0,1) {x=0; y=h*(1-t);}
+
+// Circle
+border disque(t=0,2*pi) {x=disqueX+R*cos(t);y=disqueY+R*sin(t);}
+
+
+
+int npum = 6;// node per um
+int nh = L * npum; // Nodes for top and bottom
+int nv = h * npum; // Nodes for left and right
+int nd = R*3*pi*npum; //Nodes for disque
+
+cout<< "nd:" << nd << endl;
+
+mesh Th = buildmesh(gammabot(nh)+gammaRight(nv)+gammatop(nh)+gammaLeft(nv)+disque(-nd));
+
+plot(Th, ps="maillage.eps");
