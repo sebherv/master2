@@ -37,5 +37,7 @@ MATRIX * importControlNetwork(char* filename) {
 		exit(1);
 	}
 
+	CONTROL_NETWORK
+
 	return NULL;
 }

@@ -1,0 +1,21 @@
+// Script Freefem++ pour générer le maillage d'une boule creuse
+// Auteur : Stéphane Balac, UFR de Mathématiques, Université de Rennes 1
+// Date : 15 septembre 2014
+
+load "msh3"
+load "medit"
+load "tetgen"
+include "mesh_sphere.idp"
+
+real Ri=1, Re=3; // rayons intérieur et extérieur
+real hi=0.1, he=0.5; // pas du maillages sur les sphères int. et ext.
+mesh3 ThSi=Sphere(Ri,hi,11,1); // maillage de la sphère intérieure
+mesh3 ThSe=Sphere(Re,he,12,1); // maillage de la sphère extérieure
+
+mesh3 ThS=ThSi+ThSe; // On réunit les 2 maillages surfaciques
+
+real volteti=hi^3/6, voltete=he^3/6; // volume maximal autorisés pour les tétrèdres
+real[int] Pi=[0,0,0], Pe=[0,0,(Re+Ri)/2]; // Point du domaine intérieur
+real[int] domaine=[Pi,1,volteti,Pe,2,voltete]; // Point du domaine extérieur
+mesh3 Th=tetg(ThS,switch="pqaAAYYQ",nbofregions=2,regionlist=domaine);
+medit("2 boules concentriques",Th);

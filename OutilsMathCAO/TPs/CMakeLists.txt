@@ -22,4 +22,16 @@ set(SOURCE_FILES
         tp6-CarreauBezier/controlNetwork.c
         tp6-CarreauBezier/controlNetwork.h)
 
-add_executable(TPs ${SOURCE_FILES})
+set(CARREAU_BEZIER_SOURCES_FILES
+        tools/fileUtils.c
+        tools/fileUtils.h
+        tools/matrix.c
+        tools/matrix.h
+        tools/point.c
+        tools/point.h
+        tp6-CarreauBezier/bezierPatch.c
+        tp6-CarreauBezier/bezierPatch.h
+        tp6-CarreauBezier/controlNetwork.c
+        tp6-CarreauBezier/controlNetwork.h )
+
+add_executable(carreauBezier ${CARREAU_BEZIER_SOURCES_FILES})

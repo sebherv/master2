@@ -3,7 +3,7 @@
 
 CONTROL_NETWORK * allocControlNetwork(int nbrOfLines, int nbrOfRows, int dim) {
 	CONTROL_NETWORK * cn = malloc(sizeof(CONTROL_NETWORK));
-	cn->matrix = allocMatrix(nbrOfLines * nbrOfRows, dim);
+	cn->matrix = allocMatrix(dim, nbrOfLines * nbrOfRows);
 	cn->nbrOfLines = nbrOfLines;
 	cn->nbrOfRows = nbrOfRows;
     return cn;

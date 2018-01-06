@@ -1,0 +1,62 @@
+// Etude de la convergence de la méthode des éléments finis pour le
+// problème modèle
+// S. Balac - UFR de Mathématiques, Université de Rennes 1 (2014)
+
+real a1=0, b1=1, a2=0, b2=1; 
+int n,i=0;
+int nmax=500,npas=50,tabdim=nmax/npas;
+real[int] L2error(tabdim),H1error(tabdim),h(tabdim);
+for (n=npas;n<nmax;n=n+npas){
+	mesh Th = square(n,n,[a1+(b1-a1)*x,a2+(b2-a2)*y]);
+	fespace Vh(Th,P1);
+	Vh u,v;
+	func f=(5*pi^2/4)*sin(pi*x/2)*cos(pi*y); // le second membre
+	func g=-(pi/2)*cos(pi*y); // la donnée de Neumann
+	func u0=sin(pi*x/2)*(y==0&x>0&x<1 )+cos(pi*y)*(x==1&y>=0&y<=1);
+	solve Poisson(u,v)= int2d(Th)(dx(u)*dx(v)+dy(u)*dy(v))
+            - int2d(Th)(f*v) - int1d(Th,4)(g*v)
+            + on(1,u=u0) + on(2,u=u0);
+	Vh uex = sin(pi*x/2)*cos(pi*y), // la solution exacte
+	   erra; // l'erreur ponctuelle absolue
+    	h[i]=1./n;
+	erra=u-uex;
+	L2error[i]=sqrt(int2d(Th)(erra^2) / int2d(Th)(uex^2)); // Calcul de l'erreur L2
+    	H1error[i]=sqrt(int2d(Th)(dx(erra)^2+dy(erra)^2+ erra^2) /
+               int2d(Th)(dx(uex)^2+dy(uex)^2+ uex^2)); // Calcul de l'erreur H1
+    	cout << " h = " << h[i] << " | erreur L2 = " << L2error[i] <<
+		 " | erreur H1 = " << H1error[i] << endl; // affichage du résultat
+	i++;
+}
+// On affiche la courbe de convergence en échelle logarithmique
+real[int] logL2error(tabdim), logH1error(tabdim), logh(tabdim);
+for (int j=0;j<i;j++){
+	logh[j]=log10(h[j]);
+	logL2error[j]=log10(L2error[j]);
+	logH1error[j]=log10(H1error[j]);
+}
+plot([logh,logL2error],ps="tp1_fig5.eps");
+plot([logh,logL2error],ps="tp1_fig7.eps");
+
+// Une alternative sous Unix pour afficher directement avec Gnuplot
+// cf doc p.181
+// {
+//ofstream gnu("tp1_fig51.gp");
+//for (int j=0;j<i;j++){
+//	gnu << h[j] << " " << L2error[j] << endl;
+// }
+//} // Le fichier gnuplot est fermé car la variable gnu est détruite
+//exec("echo 'plot \"tp1_fig51.gp\" w l \ 
+//pause 5 \
+//set term postscript \
+//set output = \"tp1_fig51.gp\" \
+//replot \
+//quit' | gnuplot");
+
+// Sauvegarde dans un fichier des valeurs de l'erreur L2 et H1
+// Pour la gestion des E/S voir la doc. section 4.12
+{
+ofstream fichier("tp1_data_cv2.txt");
+for (int j=0;j<i;j++){
+	fichier << h[j] << "   " << L2error[j] << "   " << H1error[j]  << endl;
+}
+}// ferme le fichier car la variable fichier est détruite

@@ -6,5 +6,5 @@ typedef struct CONTROL_NETWORK {
 	MATRIX * matrix;
 } CONTROL_NETWORK;
 
-CONTROL_NETWORK * allocateControlNetwork(int nbrOfLines, int nbrOfRows);
+CONTROL_NETWORK * allocControlNetwork(int nbrOfLines, int nbrOfRows, int dim);
 void freeControlNetwork(CONTROL_NETWORK * controlNetwork);
