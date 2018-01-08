@@ -29,55 +29,95 @@ function [G] = computeG(Nx, Ny )
         G = [G;row];
     end
     
-    % then compute rays going diagonaly up (lenght is sqrt(2) frpm
+    % then compute rays going diagonaly up (lenght is sqrt(2) from
     % left side
     sq2 = sqrt(2);
     
-    memElem = zeros(0, Ny);
+    elem = [sq2 zeros(1,Ny-1)];
+    memElem = [elem;zeros(Nx-1,Ny)];
+    
     for i = 1:Nx
-        if i <= Ny
-            elem = [zeros(1, i-1) sq2 zeros(1, Ny-i)];
-        else 
-            elem = zeros(1,Ny);
+        if i ~= 1
+            if i <= Ny
+                elem = memElem(1,:);
+                elem = [0 elem];
+                elem(:,end) = [];
+            else
+                elem = zeros(1,Ny);
+            end
+            memElem = [elem; memElem];
+            memElem(end,:) = [];
         end
-        memElem = [elem; memElem];
-        
-        curMemElemSize = size(memElem);
-        curMemElemSize = curMemElemSize(1);
         
         row = [];
-        for j = 1:curMemElemSize
-            row = [row memElem(j,:)]
+        for j = 1:Nx
+            row = [row memElem(j,:)];
         end
-       
-        curRowSize = size(row);
-        row = [row zeros(1,gWidth-curRowSize(2))];
         G = [G;row];
     end
     
-    % compute rays going diagonaly up from the bottom
-    dimDiff = Ny - Nx;
-    for i = 1:Ny
+    % compute rays going diagonaly up right from the bottom
+    % reuse memElem as these rays are nearly symetric to the
+    % previous ones
+    dimDiff = Ny - Nx + 1;
+    for i = 2:Ny % Start from 2 because the first one is the
         if i <= dimDiff
-            elem = [zeros(1, Nx + i) sq2 zeros(1, Ny-Nx-i)];
+            % add a zeros colum to the left
+            % and remove right colum to the right
+            memElem = [zeros(Nx,1) memElem];
+            memElem(:,end) = [];
         else
             elem = zeros(1,Ny);
+             %Remove last line from memElem
+             memElem = [elem; memElem];
+             memElem(end,:) = [];
         end
-        %Remove last line from memElem
-        memElem(end,:) = [];
-        memElem = [elem; memElem];
-        
-        curMemElemSize = size(memElem);
-        curMemElemSize = curMemElemSize(1);
         
         row = [];
-        for j = 1:curMemElemSize
-            row = [row memElem(j,:)]
+        for j = 1:Nx
+            row = [row memElem(j,:)];
         end
        
-        curRowSize = size(row);
-        row = [row zeros(1,gWidth-curRowSize(2))];
         G = [G;row];
     end
+    
+    % compute rays going diagonaly down right from the top
+    elem = [zeros(1,Ny-1) sq2];
+    memElem = [elem;zeros(Nx - 1, Ny)];
+    
+    for i = 1:Ny
+        if i ~= 1
+            elem = memElem(1,:);
+            elem = [elem 0];
+            elem(:,1) = [];
+            memElem(end,:) = [];
+            memElem = [elem;memElem];
+        end
+        
+        row = [];
+        for j = 1:Nx
+            row = [row memElem(j,:)];
+        end
+        G = [G;row];
+    end
+    
+    %% compute rays going diagonaly down right from the left
+    for i = 2 : Nx
+        elem = zeros(1,Ny);
+        memElem(end,:) = [];
+        memElem = [elem;memElem];
+        
+        row = [];
+        for j = 1:Nx
+            row = [row memElem(j,:)];
+        end
+        G = [G;row];
+    end
+    
+    
+    
+    
+    
+    
     
 end
