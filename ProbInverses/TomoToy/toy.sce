@@ -3,7 +3,7 @@ G=[1,0,0;0,.5,.5];
 d=[3;4.5]
 
 // SVD
-[U,S,D]=svd(G);
+[U,S,V]=svd(G);
 
 // Calculer Up, Vp, Sp
 p=rank(G);
