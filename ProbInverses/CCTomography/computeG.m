@@ -9,7 +9,7 @@ function [G] = computeG(Nx, Ny )
     % Allocate the matrix, size will Nx * My columns (number of slowness values)
     % with Nx + Ny + Nx + 2*Ny rows.
     gWidth = Nx * Ny;
-    gHeight = 2*Nx + 3*Ny;
+    gHeight = 2*Nx + 3*Ny - 1;
     
     G = zeros(0);
     
