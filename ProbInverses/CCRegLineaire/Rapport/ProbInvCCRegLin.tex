@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{graphicx}
 \author{Sébastien Hervieu}
 \title{Contrôle Continu Problèmes Inverses: Régression Linéaire}
 \renewcommand{\thesection}{\alph{section}}
@@ -157,4 +158,109 @@ nous obtenons les estimations des paramètres suivantes, avec leurs intervalles 
 	\end{array}
 \end{equation}
 
+\section{Tracé des ellipses de confiance à 0.95 pour les 3 combinaisons de paramètres}
+
+Les ellipses de confiance à 0.95 pour les 3 combinaisons de paramètres sont les suivantes:
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=12cm]{../m1m2.pdf} 
+\end{center}
+\caption{Ellipse de confiance à 0.95 entre m1 et m2}
+\end{figure}
+m1 et m2
+\newpage
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=12cm]{../m1m3.pdf} 
+\end{center}
+\caption{Ellipse de confiance à 0.95 entre m1 et m3}
+\end{figure}
+m1 et m3
+\newpage
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=12cm]{../m2m3.pdf} 
+\end{center}
+\caption{Ellipse de confiance à 0.95 entre m2 et m3}
+\end{figure}
+m2 et m3
+
+\newpage
+\section{Comparaison valeurs de (e) et (c)}
+Les valeurs de (e) sont plus grandes car elles représentent la dispersion à 0.95 des couples de paramètres pris 2 à 2, alors que les valeurs de (c) représente la dispersion des valeurs de chacun des paramètres. Ces valeurs sont différentes car elles ne mesurent pas la même population de "points".
+
+\section{Misfit: formule}
+\begin{equation}
+\phi(m) = \frac{1}{N}\sum_{i=1}^{N}(\frac{d_i^{observed}-d_i^{predicted}}{\sigma_i})^2
+\end{equation}
+
+
+\section{Misfit expected v}
+La valeur du misfit est de 9339.5885 m.
+
+\paragraph*{}
+Cette valeur n'est pas zéro car elle représente la somme des carrés des différences entre les mesures et les valeurs prédites par le modèle calculé. 
+\paragraph*{}
+Les mesures étant bruitées, le misfit ne peut être zéro.
+
+\section{Misfit: valeur attendue}
+
+La valeur attendue du misfit dans cette formule est 1.
+
+\section{Misfit avec $\sigma =0.5$ m}
+
+Le misfit avec $\sigma=0.5$ m est de 37358.354 m.
+\paragraph*{}
+Nous en concluons que de passer le $\sigma$ de 1 à 0,5m augmente le misfit. L'ajustement du $\sigma$ ne doit pas se faire dans cette direction.
+
+\section{Misfit avec $\sigma = 800 m $}
+
+La valeur du msifit avec $\sigma = 800$m est de 0.0145931 m.
+
+\paragraph{}
+Cette valeur est beaucoup trop petite. $\sigma$ ne doit pas être aussi grand.
+\section{Evaluation de la valeur de $\sigma$}
+
+Nous pouvons essayer d'ajuster la valeur de $\sigma$ en calculant le misfit pour différentes valeurs de $\sigma$ pour tenter d'obtenir une valeur de $\phi(m)$ proche de 1:
+
+\begin{equation}
+	\begin{array}{c}
+	
+	\sigma \; \; \;\;\;\; \phi(m) \\
+		 2.\; \;\;  2334.8971 \\
+
+   4.\; \;\;   583.72428 \\
+
+   10. \; \;\; 93.395885 \\
+
+   20. \; \;\;  23.348971 \\
+
+   50. \; \;\;  3.7358354 \\
+
+   100. \; \;\; 0.9339588 \\
+
+   200.  \; \;\; 0.2334897 \\
+
+   400. \; \;\;  0.0583724 \\
+
+   800. \; \;\;  0.0145931 \\
+	\end{array}
+\end{equation}
+Avec les calculs ci-dessus, nous voyons que $\sigma \simeq 100$, $\phi(m) \simeq 1$.
+Donc $\sigma \simeq 100$ est une bonne estimation de l'écart-type.
+
+\section{Où l'expérience a-t-elle eu lieu?}
+$m_3$ correspondant à l'accélération de pesanteur à la surface de la planète, nous constatons que sa valeur calculée ($3.714 m.s^{-2}$) est différente de celle de la Terre ($9,806 m.s{-2}$).
+
+\paragraph*{}
+Une recherche Wikipédia sur Mars nous indique que l'accélération de pesanteur à la surface de cette planète est de $3.711 m.s^{-2}$, très proche de notre valeur calculée.
+
+\paragraph*{}
+Par ailleurs, l'altitude de départ de l'expérience est de 21414m, ce qui équivaut à l'altitude du volcan le plus du haut du système solaire: Olympus Mons.
+
+\paragraph*{}
+L'expérience s'est donc déroulée sur la planète Mars, au sommet d'Olympus Mons.
 \end{document}

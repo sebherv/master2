@@ -17,7 +17,7 @@ n = size(d);
 sigmasSize = size(sigmas);
 maxSigmas = sigmasSize(2);
 
-subplotHeight = (floor(maxSigmas/2 + 0.5));
+subplotHeight = (floor(maxSigmas/2));
 
 randnoise = randn(n);
 

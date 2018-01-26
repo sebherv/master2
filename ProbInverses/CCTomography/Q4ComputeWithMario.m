@@ -1,6 +1,6 @@
 clear; close all;
 
-sigmas = [0 0.1 0.5 1];
+sigmas = [0 0.1 0.5];
 % Open file
 I = imread('mario16x16.png');
 
@@ -28,7 +28,7 @@ title(curtitle);
 
 for i = 1: maxSigmas
     s= sigmas(i);
-    dnoise = d + randnoise * s * ;
+    dnoise = d + randnoise * s;
     % Derive model from data
     mvect = computeModelFromData(dnoise,G);
     

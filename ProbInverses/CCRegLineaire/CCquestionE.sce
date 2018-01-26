@@ -27,8 +27,12 @@ ChiSqNu1 = 3.96;
 ChiSqNu2 = 5.99;
 ChiSqNu3 = 7.81;
 
+
+// Build Cm12
+Cm12 = [Cm(1,1) Cm(1,2); Cm(2,1) Cm(2,2)];
+
 // Diagonalize the covariance matrix
-[u,lam]=spec(inv(Cm));
+[u,lam]=spec(inv(Cm12));
 
 disp(u, "u =", "Eigen vectors for inv(Cm):");
 disp(lam, "lam = ", "Eigen values for inv(Cm)");
@@ -36,7 +40,6 @@ disp(lam, "lam = ", "Eigen values for inv(Cm)");
 theta = (0:0.01:2*%pi);
 delta = sqrt(ChiSqNu2);
 
-// M1 et M2
 // calculate the x component of the ellipsoid for all angles
 r(:,1)=(delta/sqrt(lam(1,1)))*u(1,1)*cos(theta)+(delta/sqrt(lam(2,2)))*u(1,2)*sin(theta);
 // calculate the y component of the ellipsoid for all angles
@@ -47,22 +50,38 @@ scf(1)
 xtitle("Ellipse de confiance à 95% entre m1 et m2", "m1 (m)", "m2 (m/s)");
 plot(m(1)+r(:,1),m(2)+r(:,2));
 
+// Build Cm13
+Cm13 = [Cm(1,1) Cm(1,3); Cm(3,1) Cm(3,3)];
+
+// Diagonalize the covariance matrix
+[u,lam]=spec(inv(Cm13));
+
+disp(u, "u =", "Eigen vectors for inv(Cm):");
+disp(lam, "lam = ", "Eigen values for inv(Cm)");
 
 // M1 et M3
 // calculate the x component of the ellipsoid for all angles
-r(:,1)=(delta/sqrt(lam(1,1)))*u(1,1)*cos(theta)+(delta/sqrt(lam(3,3)))*u(1,3)*sin(theta);
+r(:,1)=(delta/sqrt(lam(1,1)))*u(1,1)*cos(theta)+(delta/sqrt(lam(2,2)))*u(1,2)*sin(theta);
 // calculate the y component of the ellipsoid for all angles
-r(:,2)=(delta/sqrt(lam(1,1)))*u(3,1)*cos(theta)+(delta/sqrt(lam(3,3)))*u(3,3)*sin(theta);
+r(:,2)=(delta/sqrt(lam(1,1)))*u(2,1)*cos(theta)+(delta/sqrt(lam(2,2)))*u(2,2)*sin(theta);
+
 
 scf(2)
 xtitle("Ellipse de confiance à 95% entre m1 et m3", "m1 (m)", "m3 (m/s2)");
 plot(m(1)+r(:,1),m(3)+r(:,2));
 
+// Build Cm23
+Cm23 = [Cm(2,2) Cm(2,3); Cm(3,2) Cm(3,3)];
+
+// Diagonalize the covariance matrix
+[u,lam]=spec(inv(Cm13));
+
 // M2 et M3
 // calculate the x component of the ellipsoid for all angles
-r(:,1)=(delta/sqrt(lam(2,2)))*u(2,2)*cos(theta)+(delta/sqrt(lam(3,3)))*u(2,3)*sin(theta);
+r(:,1)=(delta/sqrt(lam(1,1)))*u(1,1)*cos(theta)+(delta/sqrt(lam(2,2)))*u(1,2)*sin(theta);
 // calculate the y component of the ellipsoid for all angles
-r(:,2)=(delta/sqrt(lam(2,2)))*u(3,2)*cos(theta)+(delta/sqrt(lam(3,3)))*u(3,3)*sin(theta);
+r(:,2)=(delta/sqrt(lam(1,1)))*u(2,1)*cos(theta)+(delta/sqrt(lam(2,2)))*u(2,2)*sin(theta);
+
 
 scf(3)
 xtitle("Ellipse de confiance à 95% entre m2 et m3", "m2 (m/s)", "m3 (m/s2)");

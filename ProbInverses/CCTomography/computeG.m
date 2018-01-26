@@ -6,11 +6,7 @@
 %   - diagonaly down, starting from the top, then from the left
 %   - We assume unit size for each model element
 function [G] = computeG(Nx, Ny )
-    % Allocate the matrix, size will Nx * My columns (number of slowness values)
-    % with Nx + Ny + Nx + 2*Ny rows.
-    gWidth = Nx * Ny;
-    gHeight = 2*Nx + 3*Ny - 1;
-    
+   
     G = zeros(0);
     
     % First compute rays going through the rows
@@ -68,7 +64,8 @@ function [G] = computeG(Nx, Ny )
             memElem(:,end) = [];
         else
             elem = zeros(1,Ny);
-             %Remove last line from memElem
+             % Insert zero line to the top 
+             % Remove last line from memElem
              memElem = [elem; memElem];
              memElem(end,:) = [];
         end
