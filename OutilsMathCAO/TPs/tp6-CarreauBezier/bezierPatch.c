@@ -7,5 +7,5 @@
 int main() {
 
 	// Open file
-	MATRIX* controlNetwork = importControlNetwork("P.dat");
+	MATRIX* controlNetwork = importControlNetwork("../tp6-CarreauBezier/P.dat");
 }

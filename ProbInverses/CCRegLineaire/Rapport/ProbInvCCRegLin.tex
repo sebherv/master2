@@ -1,0 +1,160 @@
+\documentclass[12pt,a4paper]{extreport}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\author{Sébastien Hervieu}
+\title{Contrôle Continu Problèmes Inverses: Régression Linéaire}
+\renewcommand{\thesection}{\alph{section}}
+\begin{document}
+\maketitle
+
+\section{Equation Linéaire}
+
+Nous disposons de données $d(t,y)$ contenant les hauteurs $y$ du projectile à des instants $t$.
+Par ailleurs, le modèle que nous voulons trouver est de la forme:
+\[y(t)=m_1+m_2t-\frac{1}{2}m_3t^2\]
+
+Nous posons donc l'équation suivante:
+\begin{gather}
+d = Gm
+\end{gather}
+
+et donc 
+
+\begin{gather}
+	\begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_{25} \end{bmatrix}
+	=
+	\begin{bmatrix}
+	1 & t_1 & -\frac{1}{2}t_1^2 \\
+	1 & t_2 & -\frac{1}{2}t_2^2 \\ 
+	\multicolumn{3}{c}{$\vdots$} \\
+	1 & t_{25} & -\frac{1}{2}t_{25}^2
+	\end{bmatrix}
+	\begin{bmatrix} m_1 \\ m_2 \\ m_3 \end{bmatrix}
+\end{gather}
+où les $y_i$ et les $t_i$, $(i= 1, \dots, 25)$  sont les données et les $m_n$, $(n =1, 2, 3)$ sont les inconnues.
+
+
+\section{Solution des moindres carrés, matrices de covariance et de corrélation}
+
+La solution des moindres carrés est donnée par :
+\begin{equation}
+	\begin{gathered}
+		m = (G^TG)^{-1}G^Td
+	\end{gathered}\label{eq:1}
+\end{equation}
+
+En résolvant numériquement à l'aide de scilab, nous obtenons:
+\begin{equation}
+\begin{array}{c}
+m_1 = 21396.743 \\[\jot] m_2 = 16.811659 \\[\jot] m_3 = 3.7141271
+\end{array}
+\end{equation}
+
+\subsection*{Matrice de covariance des données}
+En utilisant la formule donnée en \eqref{eq:1} pour le calcul des paramètres, nous faisons l'hypothèse implicite que l'erreur sur les données $\sigma$ est telle que 
+\begin{gather}
+\sigma^2 = 1
+\end{gather}
+Dans cette hypothèse la matrice de covariance des données $C_d$ est égale à la matrice identité $I$, soit:
+
+\begin{gather}
+	C_d =
+	\begin{bmatrix}
+	\sigma_1^2 & 0 & \dots & 0 \\
+	0 & \sigma_2^2 & \dots & 0 \\
+	\multicolumn{3}{c}{$\vdots$} \\
+	0 & 0 & \dots & \sigma_{25}^2
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	1 & 0 & \dots & 0 \\
+	0 & 1 & \dots & 0 \\
+	\multicolumn{3}{c}{$\vdots$} \\
+	0 & 0 & \dots & 1 
+	\end{bmatrix}
+	= I
+\end{gather}
+
+\subsection*{Matrices de covariance du modèle}
+La matrice de covariance du modèle $C_m$ est donnée de manière générale par:
+\begin{gather}
+	C_m = (G^TC_d^{-1}G)^{-1}
+\end{gather}
+
+Dans notre hypothèse où $C_d = I$, $C_m$ devient:
+\begin{gather}
+	C_m = (G^TG)^{-1}
+\end{gather}
+
+$C_m$ est calculée à l'aide de scilab; nous obtenons le résultat suivant:
+
+\begin{gather}
+	C_m =
+	\begin{bmatrix}
+		0.3654177 & -0.0120938 & -0.0001784 \\
+  		-0.0120938 &  0.0005567 &  0.0000097 \\
+  		-0.0001784 &  0.0000097  & 0.0000002
+	\end{bmatrix}
+\end{gather}
+
+La matrice de corrélation des paramètres est donnée par la formule suivante:
+\begin{gather}
+	\rho_{ij} = \frac{C_m(m_i,m_j)}{\sigma_i\sigma_j}
+\end{gather}
+ce qui nous donne dans notre cas:
+\begin{gather}
+	CorrM =
+	\begin{bmatrix}
+	1 &-0.8479488 & -0.6838399 \\
+  -0.8479488  & 1.        &  0.9535659 \\
+  -0.6838399 &  0.9535659  & 1.  
+	\end{bmatrix}
+\end{gather}
+
+\subsection*{Interpretation}
+Nous constatons que $Cm$ n'est pas diagonale, qu'aucune valeur de la matrice de $CorrM$ n'est nulle.
+
+\section{Estimation des paramètres avec $\chi_{\nu=1,p=0.95}^2$}
+En effectuant le calcul suivant:
+\begin{gather}
+	\Delta m = \sqrt{\chi_{\nu=1,p=0.95}^2 \times diag(C_m)}
+\end{gather}
+
+avec $\chi_{\nu=1,p=0.95}^2 = 3.96$
+
+
+nous obtenons les estimations des paramètres suivantes, avec leurs intervalles de confiance à 95\% projetés en 1D:
+
+\begin{equation}
+	\begin{array}{c}
+		m_1 = 21396.743 \pm 1.2029356\;m\\
+		[\jot] m_2 = 16.811659 \pm 0.046951\;m/s\\
+		[\jot] m_3 = 3.7141271 \pm 0.0008587\;m/s^2
+	\end{array}
+\end{equation}
+
+\section{Estimation des paramètres avec $\chi_{\nu=2,p=0.95}^2$}
+En effectuant un calcul similaire au précédent:
+
+\begin{gather}
+	\Delta m = \sqrt{\chi_{\nu=2,p=0.95}^2 \times diag(C_m)}
+\end{gather}
+
+avec $\chi_{\nu=2,p=0.95}^2 = 5.99$
+
+
+nous obtenons les estimations des paramètres suivantes, avec leurs intervalles de confiance à 95\% 3D projetés en 2D:
+
+\begin{equation}
+	\begin{array}{c}
+		m_1 = 21396.743 \pm 1.4794769\;m\\
+		[\jot] m_2 = 16.811659 \pm 0.0577445\;m/s\\
+		[\jot] m_3 = 3.7141271 \pm 0.0010561\;m/s^2
+	\end{array}
+\end{equation}
+
+\end{document}

@@ -1,0 +1,65 @@
+// Script Freefem++ pour générer le maillage d'une coiffe de cicatrisation
+// dentaire à l'intérieur d'une boule
+// Auteur : Stéphane Balac, UFR de Mathématiques, Université de Rennes 1
+// Date : 15 septembre 2014
+
+load "msh3"  //  bibliothèque pour les maillages 3D
+load "medit"  // bibliothèque medit de visualisation des maillages 3D
+load "tetgen" // mailleur TetGen
+include "mesh_sphere.idp"; // permet de générer le maillage d'une sphère
+
+real R1=2; // rayon du cylindre partie supérieure 
+real R2=1; // rayon du cylindre partie inférieure
+real H1=3; // hauteur du cylindre de base
+real H2=1; // hauteur du cone
+real H3=2; // hauteur du cylindre supérieur
+real zorigin=0.5*(H1+H2+H3); // choix de l'origine du repère (0,0,zorigin)
+// fonction de paramétrisation du cone
+func real RR(real t){
+return R2+ (R1-R2)*t;
+}
+
+//
+// Partie inférieure de la coiffe
+//
+int n=18; // nombre de sommets par coté
+// maillage du domaine de paramétrisation [0,1] x [0,1]
+mesh Th1=square(n,n); 
+// On génère le maillage de la surface du cylindre comme l'image du maillage
+// du domaine 2D par la fonction de paramétrisation 
+mesh3 ThC1=movemesh23(Th1,transfo=[R2*cos(2*pi*x),R2*sin(2*pi*x),H1*y-zorigin]);
+//
+// Partie intermédiaire de la coiffe
+//
+// On génère le maillage de la surface du cone comme l'image du maillage
+// du domaine 2D par la fonction de paramétrisation 
+mesh3 ThC2=movemesh23(Th1,transfo=[RR(y)*cos(2*pi*x),RR(y)*sin(2*pi*x),H1+H2*y-zorigin]);
+//
+// Partie supérieure de la coiffe
+//
+// On génère le maillage de la surface du cone comme l'image du maillage
+// du domaine 2D par la fonction de paramétrisation 
+mesh3 ThC3=movemesh23(Th1,transfo=[R1*cos(2*pi*x),R1*sin(2*pi*x),H1+H2+H3*y-zorigin]);
+//
+// Ajout des disques supérieur et inférieur
+//
+border cercle(t=0,2*pi){x=cos(t);y=sin(t);}  
+mesh Th2=buildmesh(cercle(n));               // maillage du disque unité
+mesh3 ThC41=movemesh23(Th2,transfo=[R1*x,R1*y,H1+H2+H3-zorigin]);
+mesh3 ThC51=movemesh23(Th2,transfo=[R2*x,R2*y,0-zorigin]);
+
+// On génère le maillage de la surface de la coiffe de cicatrisation
+mesh3 ThC0=ThC1+ThC2+ThC3+ThC41+ThC51;
+savemesh(ThC0,"maillage123.mesh");
+
+real Re=(H1+H2+H3); // Rayon de la sphère
+mesh3 ThS=Sphere(Re,1,11,1); // Maillage de la sphère
+
+mesh3 ThX=ThS+ThC0;  // On réunit les 2 surfaces
+
+real[int] tab1=[0,0,0,1,0.01];  // caractéristiques du domaine int. pour Tetgen
+real[int] tab2=[0,0,0.8*(H1+H2+H3),2,0.1]; // caractéristiques du domaine ext.
+real[int] domain=[tab1,tab2];
+mesh3 ThC3d=tetg(ThX,switch="paAAQY",nbofregions=2,regionlist=domain);
+savemesh(ThC3d,"maillage_complet.mesh");
+

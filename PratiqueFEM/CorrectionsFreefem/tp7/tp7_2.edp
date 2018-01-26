@@ -1,0 +1,36 @@
+load "medit"
+// ----  Mesh generation ----
+real R=0.02;
+real Lx=0.2, Ly=0.2;
+real alpha=0.5*(1-2*R/Ly);
+border Gamma1(t=0,1){x=Lx*t;y=0;label=1;};
+border Gamma2(t=0,1){x=Lx;y=Ly*t;label=2;};
+border Gamma3(t=0,1){x=Lx*t;y=Ly;label=3;};
+border Gamma4p(t=1-alpha,1){x=0;y=Ly*t;label=2;};
+border Gamma4m(t=0,alpha){x=0;y=Ly*t;label=2;};
+border Gamma5(t=-pi/2,pi/2){x=R*cos(t);y=(R+alpha*Ly)+R*sin(t);label=4;};
+
+int n=20;
+mesh Th=buildmesh(Gamma1(n)+ Gamma2(n)+ Gamma3(-n)+Gamma4p(-n/2)+
+                  Gamma5(-n/2)+Gamma4m(-n/2));
+plot(Th,wait=true,ps="maillage_sol.eps");
+
+// ---- Thermic data ----
+real k=1.75; // Thermal conductivity of concrete [W m^{-1}K^{-1}]
+real h=20; // Heat convection coefficient of concrete  [W m^{-2}K^{-1}]
+real Te1=5+273; // Upper room temperature in K
+real Te3=20+273;// Lower room temperature in K
+real T5=50+273; // Water temperataure
+
+// ---- FEM resolution ----
+fespace Vh(Th,P2);
+Vh u,v;
+macro grad(u) [dx(u),dy(u)] //fin macro
+
+solve chaleur(u,v)=int2d(Th)(k*grad(u)'*grad(v))
+                   + int1d(Th,1)(h*u*v) + int1d(Th,3)(h*u*v) 
+                   -  int1d(Th,1)(h*Te1*v) -int1d(Th,3)(h*Te3*v)
+                   +on(4,u=T5);
+Vh T=u-273; // Temperature in Celsius degree
+plot(T,wait=true,fill=true);
+medit("Temperature",Th,T);

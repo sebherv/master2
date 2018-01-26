@@ -1,0 +1,42 @@
+// Résolution du problème modèle
+// S. Balac - UFR de Mathématiques, Université de Rennes 1 (2014)
+
+real a1=0, b1=1, a2=0, b2=1; 
+border Gamma1(s=0,1){x=s;y=0;}
+border Gamma2(t=0,1){x=1;y=t;}
+border Gamma3(t=0,1){x=t;y=1;}
+border Gamma4(t=0,1){x=0;y=t;}
+
+int n=6;
+mesh Th = buildmesh(Gamma1(n)+Gamma2(n)+Gamma3(-n)+Gamma4(-n));
+plot(Th,ps="tp1_fig1.eps");
+mesh Th2 = square(n,n,[a1+(b1-a1)*x,a2+(b2-a2)*y]); 
+plot(Th2,ps="tp1_fig2.eps");
+
+// Pour tester ces instructions de sauvegarde, on peut après une première
+// exécution, commenter la première ligne et décommenter la seconde
+savemesh(Th2,"maillage_2.msh");
+//mesh Th2=readmesh("maillage_2.msh");
+
+fespace Vh(Th2,P1);
+Vh u,v;
+func f=(5*pi^2/4)*sin(pi*x/2)*cos(pi*y); // le second membre
+func g=-(pi/2)*cos(pi*y); // la donnée de Neumann
+func u0=sin(pi*x/2)*(y==0&x>0&x<1 )+cos(pi*y)*(x==1&y>=0&y<=1);
+// Définition du problème variationnel et résolution de celui-ci
+// Les 2 instructions suivantes peuvent être regroupées en une seul
+// en utilisant la directive solve
+problem Poisson(u,v)= int2d(Th2)(dx(u)*dx(v)+dy(u)*dy(v))
+            - int2d(Th2)(f*v) - int1d(Th2,Gamma4)(g*v)
+            + on(Gamma1,u=u0) + on(Gamma2,u=u0);
+Poisson;  // On résout le problème
+// On définit les valeurs des isovaleurs à représenter
+real[int] valiso=[-1,-0.75,-0.5,-0.25,0,0.25,0.5,0.75,1];
+plot(u,fill=0,viso=valiso,value=1,ps="tp2_fig3.eps");
+// Calcul de l'erreur L2
+Vh uex = sin(pi*x/2)*cos(pi*y); // la solution exacte
+real L2error=sqrt(int2d(Th2)((u-uex)^2) / int2d(Th2)(uex^2));
+cout << " Erreur quadratique relative commise = " << L2error << endl; 
+plot(uex,fill=1);  // affichage de la solution exacte
+Vh uerr = abs(uex-u); // définition de l'erreur EF
+plot(uerr,nbiso=20,fill=1,value=1,ps="tp1_fig4.eps"); // affichage des isovaleurs pour l'erreur 

@@ -1,0 +1,61 @@
+// 3 - Non linear heat transfert in a thin plate : the dynamic case
+
+verbosity=1;
+real L=1; // size of the plate in m
+int Np=30; // nb of discretization nodes per square edge
+mesh Th=square(Np,Np,[L*x,L*y]);
+plot(Th,ps="main3_maillage.ps");
+
+real k = 400; // thermal conductivity of copper, W/(m-K)
+real rho = 8960; // density of copper, kg/m^3
+real Cp = 386; // specific heat of copper, J/(kg-K)
+real tz = .01; // plate thickness in meters
+real stefanBoltz = 5.670373e-8; // Stefan-Boltzmann constant, W/(m^2-K^4)
+real h = 1; // Convection coefficient, W/(m^2-K)
+real Ta = 300; //  ambient temperature in degree-Kelvin
+real Tb = 1000; // temperature at the bottom edge
+real epsilon = .5; // emissivity of the plate surface
+
+fespace Vh(Th,P2);
+Vh u,uold,v,b=0;
+macro grad(u)[dx(u),dy(u)]//fin macro
+
+int Nt=400; // nombre de noeuds de discrétisation en temps
+real Tf=5000, dt=Tf/Nt; // longueur de l'intervalle en temps et pas de temps
+u=300; // initial temperature in unit K
+
+int iterx=200, i=0,n=0;
+real err=1, normu=0;
+ofstream ff("res_main3.txt");
+// Loop over the time windows
+for (real t=0;t<Tf;t+=dt){
+    cout << "Progress = " << (100*n/Nt) << " % " << endl;
+	uold=u;
+    b=0;
+	solve thermnl(u,v)=int2d(Th)( (rho*Cp*tz/dt)*u*v+
+                                   k*tz*grad(u)'*grad(v)+2*h*u*v)
+                    +int2d(Th)(b*u*v)
+                    -int2d(Th)((rho*Cp*tz/dt)*uold*v)
+					+on(1,u=Tb-Ta);
+	iterx=200; i=0;
+	err=1; normu=0;
+	while (err>1E-6 & i<iterx){
+		i=i+1; // iteration counter
+		uold=u;
+   		b=2*stefanBoltz*epsilon*(uold+2*Ta)*((uold+Ta)^2+Ta^2);
+    	thermnl; // problem is solved 
+		normu=sqrt(int2d(Th)(abs(u)^2)); // norm of the solution 
+    	err=sqrt(int2d(Th)(abs(u-uold)^2))/normu; // difference with the last iterate
+	} 
+    ff<<u(L/2,L)<<endl; // solution at the top edge center
+	n=n+1;
+}
+//cout << "Number of iterations = " << i << endl;
+Vh T=u+Ta; // Temperature in Kelvin
+
+plot(T,ps="main3_sol.eps",fill=true,nbiso=50);
+cout << "Temperature at the top edge = " << T(L/2.,L) << endl;
+normu=sqrt(int2d(Th)(abs(u+Ta)^2));
+cout << "Norm of the solution = "<< normu << endl;
+
+
