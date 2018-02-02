@@ -1,5 +1,5 @@
 function [ x, Jx, GJx, nit ] = GCST( J, GJ, x0, pas, epsil, nitmax )
-%GCST MÃ©thode du gradient Ã  pas constant
+%GCST Méthode du gradient à pas constant
 % J  - fonction dont on doit trouver le minimum
 % GJ - fonction gradient de la fonction J
 % x0 - valeur initiale
@@ -16,17 +16,16 @@ function [ x, Jx, GJx, nit ] = GCST( J, GJ, x0, pas, epsil, nitmax )
 % iterer
 n = 0;
 xk = x0;
-dk 
+dk = 0;
+dk1 = 1;
 
-while n < nitmax & abs(dk) < epsil
+while n < nitmax & norm(dk1 -dk) > epsil
     
     % Calculer gradient
+    dk1 = dk;
     dk = -GJ(xk);
     xk1 = xk + pas * dk;
     nit = n;
-    if abs(dk) < epsil
-        n = nitmax;
-    end
     
     % Mettre Ã  jour les valeurs
     n = n+1;
