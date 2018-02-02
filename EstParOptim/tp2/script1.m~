@@ -1,0 +1,19 @@
+clear; close all;
+nList = [5 10 50 100 500 1000];
+hList = 1./nList;
+errList = [];
+for n = nList
+    X = linspace(0,1,n+1);
+    X = X(2:n); % remove first and last as 0 and 1 are to be excluded.
+    F = f(X)';
+    Uex = uex(X);
+    U = direct(F);
+    
+    err = norm(U-Uex);
+    errList = [errList err];
+end
+
+loglog(hList, errList, 'o-');
+grid on;
+
+ordre = polyfit(log10(hList), log10(errList), 1);
