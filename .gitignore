@@ -10,3 +10,5 @@ OutilsMathCAO/TPs/cmake-build-debug
 OutilsMathCAO/TPs/tools/.idea
 OutilsMathCAO/TPs/tools/cmake-build-debug
 OutilsMathCAO/TPs/tp6-CarreauBezier/.idea
+/ThermoElasticité/AmortisseurViscoEleastique.mph
+/ThermoElasticité/AmortisseurViscoEleastiqueTransDirect.mph
