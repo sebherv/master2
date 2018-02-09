@@ -1,11 +1,11 @@
-function [ x, Jx, GJx, nit ] = GCST( J, GJ, x0, pas, epsil, nitmax )
-%GCST Méthode du gradient à pas constant
+function [ x, Jx, GJx, nit, XKS ] = GOPT( J, GJ, OPTSTEP, x0, epsil, nitmax )
+%GOPT Summary of this function goes here
+%   Méthode du gradient à pas optimal UNIQUEMENT POUR f ET g
 % J  - fonction dont on doit trouver le minimum
 % GJ - fonction gradient de la fonction J
 % x0 - valeur initiale
-% pas - valeur du pas
 % epsil - valeur vers pour convergence
-% nitmax - nombre max d'itÃ©ration
+% nitmax - nombre max d'iteration
 %
 % Retourne:
 % x - le x pour lequel J est minimal
@@ -14,28 +14,39 @@ function [ x, Jx, GJx, nit ] = GCST( J, GJ, x0, pas, epsil, nitmax )
 % nit - le nombre d'iteration
 
 % iterer
+n = 1;
 nit = 1;
 xk = x0;
-dk = 0;
 
-dk = -GJ(xk);
-dk1 = dk + 1;  % make sure the grad diff is not 0
+gk = GJ(xk);
+dk = -gk;
+dk1 = 0;
 
-while nit < nitmax & norm(dk1 -dk) > epsil & norm(dk) > epsil
+XKS = [];
+XKS = x0;
+
+while n < nitmax & norm(dk) > epsil
     
     % Calculer gradient
+    pas = OPTSTEP(gk, xk, dk);
     xk1 = xk + pas * dk;
+    nit = n;
     
     % Mettre Ã  jour les valeurs
-    nit = nit+1;
+    n = n+1;
     xk = xk1;
     
+    % Préparer la boucle suivante
     dk1 = dk;
-    dk = -GJ(xk);
+    gk = GJ(xk);
+    dk = -gk;
+    
+    XKS = [XKS xk];
    
 end
 x = xk;
 Jx = J(x);
 GJx = GJ(x);
+
 end
 

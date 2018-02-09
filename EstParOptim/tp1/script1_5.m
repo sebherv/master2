@@ -17,11 +17,10 @@ end
 
 hold on
 plot(pas, nitConst, 'o-');
-plot(pas, nitConj, 'o-');
+plot(pas, nitConj, 'x-');
 title("Méthode de gradiant pour g(x) n = 2");
 xlabel("Valeur du pas");
 ylabel("Nombres d'itérations");
 
 legend("GCST", "GCDYCST");
-figure;
-hold on;
+hold off;

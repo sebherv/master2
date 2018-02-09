@@ -18,7 +18,4 @@ title("Gradiant à Pas Constant pour F(x) n = 1");
 xlabel("Valeur du pas");
 ylabel("Nombres d'itérations");
 
-figure;
-hold on;
-plot(pas, Jx, 'o-');
-plot(pas, X, 'x-');
+disp(Jx);
