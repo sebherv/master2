@@ -1,5 +1,7 @@
 clear; close all;
 nList = [5 10 50 100 500 1000 2000 5000 10000];
+
+global Uobs;
 hList = 1./nList;
 errList = [];
 figure;
@@ -7,14 +9,16 @@ hold on;
 for n = nList
     X = linspace(0,1,n+1)';
     X = X(2:n); % remove first and last as 0 and 1 are to be excluded.
-    F = f(X);
-    Uex = uex(X);
-    U = direct(F);
+    U = Ui(X);
+    Uobs = uex(X);
+    V = adjoint(U);
     
-    err = norm(U-Uex)/norm(Uex);
+    Vex = uex(X);
+    
+    err = norm(V-Vex)/norm(Vex);
     errList = [errList err];
     
-    plot(X, F);
+    plot(X, V);
     
 end
 
